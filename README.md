@@ -1,2 +1,3 @@
 # ITS181-2-Project
-Full-stack Web Application developed using Java Spring Boot and Angular
+
+PawPortal: A Web-Based Dog Adoption Management System for the City Veterinary Office. Developed using Java Spring Boot and Angular
