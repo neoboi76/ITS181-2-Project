@@ -1,4 +1,4 @@
-package com.pawportal.backend.services;
+package com.pawportal.backend.services.implementations;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

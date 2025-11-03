@@ -1,4 +1,4 @@
-package com.pawportal.backend.services;
+package com.pawportal.backend.services.interfaces;
 
 public interface ILogoutService {
     void blacklistToken(String token);

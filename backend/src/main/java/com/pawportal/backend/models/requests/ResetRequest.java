@@ -12,5 +12,5 @@ public class ResetRequest {
     private String email;
     private String oldPassword;
     private String newPassword;
-
+    private String token;
 }

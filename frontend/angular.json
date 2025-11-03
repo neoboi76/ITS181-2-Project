@@ -23,7 +23,7 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/favicon.png",
+              "src/assets/logo.png",
               "src/assets"
             ],
             "styles": [

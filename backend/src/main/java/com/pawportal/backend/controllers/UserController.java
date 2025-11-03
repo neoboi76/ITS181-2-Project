@@ -1,12 +1,10 @@
 package com.pawportal.backend.controllers;
 
-import com.pawportal.backend.models.*;
-import com.pawportal.backend.models.requests.LoginRequest;
-import com.pawportal.backend.models.requests.RegisterRequest;
-import com.pawportal.backend.models.requests.ResetRequest;
-import com.pawportal.backend.models.requests.SettingsRequest;
+import com.pawportal.backend.models.requests.*;
 import com.pawportal.backend.models.responses.*;
-import com.pawportal.backend.services.*;
+import com.pawportal.backend.services.implementations.JwtTokenProvider;
+import com.pawportal.backend.services.interfaces.IAuthService;
+import com.pawportal.backend.services.interfaces.ILogoutService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -83,6 +81,39 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Password reset failed: " + e.getMessage());
         }
+    }
+
+    @PostMapping("/request-reset")
+    public ResponseEntity<?> requestReset(@RequestBody ResetRequest body, HttpServletRequest request) {
+        try {
+            String email = body.getEmail();
+
+            String msg = authService.requestReset(email);
+
+            return ResponseEntity.ok(msg);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Password reset was unsuccessful");
+        }
+
+    }
+
+    @PostMapping("/request-forgot")
+    public ResponseEntity<?> requestForgot(@RequestBody ForgotRequest body, HttpServletRequest request) {
+        try {
+
+            System.out.println(body.getEmail());
+
+            String email = body.getEmail();
+
+            String msg = authService.requestForgot(email);
+
+            return ResponseEntity.ok(msg);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Password reset was unsuccessful");
+        }
+
     }
 
     @PostMapping("/logout")

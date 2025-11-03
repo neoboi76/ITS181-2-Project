@@ -1,9 +1,9 @@
-package com.pawportal.backend.services;
+package com.pawportal.backend.services.implementations;
 
 import com.pawportal.backend.models.TokenBlackList;
 import com.pawportal.backend.repositories.TokenRepository;
+import com.pawportal.backend.services.interfaces.ILogoutService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.time.Instant;

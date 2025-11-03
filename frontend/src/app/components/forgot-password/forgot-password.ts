@@ -1,23 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
 import { AuthService } from '../../services/auth-service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 
-/* 
 
- */
-
-//Service class that deals with resetting password operations (from the settings page)
-
+//Class that deals with forgot password operations (from the login page)
 @Component({
-  selector: 'app-reset-password',
+  selector: 'app-forgot-password',
   imports: [FormsModule, RouterLink, ReactiveFormsModule, NgClass],
-  templateUrl: './reset-password.html',
-  styleUrl: './reset-password.css'
+  templateUrl: './forgot-password.html',
+  styleUrl: './forgot-password.css'
 })
-export class ResetPasswordComponent implements OnInit{
+
+export class ForgotPasswordComponent implements OnInit {
 
   resetForm!: FormGroup;
   submitted = false;
@@ -33,7 +29,7 @@ export class ResetPasswordComponent implements OnInit{
   ) {}
 
 
-  //Toggles password view visible and not
+  //Toggles password invisible or not
   showPassword1: boolean = false;
   showPassword2: boolean = false;
 
@@ -46,15 +42,14 @@ export class ResetPasswordComponent implements OnInit{
   }
 
 
-  //Retrieves token from url parameter 
+  //Retrieves and verifies token from the url (sent by forgotService)
   ngOnInit(): void {
 
     this.token = this.route.snapshot.queryParamMap.get('token');
     
-    //Validates form
+    //Form control
     this.resetForm = this.fb.group({ 
       email: ['', [Validators.required, Validators.minLength(6)]],
-      oldPassword: ['', [Validators.required,Validators.minLength(6)]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
@@ -63,7 +58,7 @@ export class ResetPasswordComponent implements OnInit{
     return this.resetForm.controls;
   }
 
-  //Submits new password and updates it in the backend
+  //Facilitates forgot (reset) password operations
   onSubmit(): void {
     this.submitted = true;
     this.errorMessage = '';
@@ -71,9 +66,9 @@ export class ResetPasswordComponent implements OnInit{
 
     if (this.resetForm.invalid) return;
 
-    const {email, oldPassword, newPassword} = this.resetForm.value;
+    const {email, newPassword} = this.resetForm.value;
 
-      this.authService.resetPassword(email, oldPassword, newPassword, this.token).subscribe({
+      this.authService.forgotPassword(email, newPassword, this.token).subscribe({
         next: (res)  => {
           console.log(res);
           this.successMessage = 'Reset was a success!';
