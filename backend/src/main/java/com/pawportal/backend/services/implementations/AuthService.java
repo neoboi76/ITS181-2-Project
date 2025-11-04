@@ -3,10 +3,7 @@ package com.pawportal.backend.services.implementations;
 import com.pawportal.backend.models.*;
 import com.pawportal.backend.models.enums.Role;
 import com.pawportal.backend.models.requests.*;
-import com.pawportal.backend.models.responses.LoginResponse;
-import com.pawportal.backend.models.responses.RegisterResponse;
-import com.pawportal.backend.models.responses.ResetResponse;
-import com.pawportal.backend.models.responses.SettingsResponse;
+import com.pawportal.backend.models.responses.*;
 import com.pawportal.backend.repositories.PasswordTokenRepository;
 import com.pawportal.backend.repositories.UserRepository;
 import com.pawportal.backend.services.interfaces.IAuthService;
@@ -101,17 +98,8 @@ public class AuthService implements IAuthService, UserDetailsService  {
         UserModel user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + request.getEmail()));
 
-        PasswordResetToken tokenRecord = passwordTokenRepository.findByToken(request.getToken())
-                .orElseThrow(() -> new RuntimeException("Invalid or expired token"));
-
-        if (tokenRecord.getExpiry().isBefore(LocalDateTime.now())) {
-            return new ResetResponse("Token expired");
-        }
-
         user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
-
-        passwordTokenRepository.delete(tokenRecord);
 
         return new ResetResponse("Password has been reset successfully.");
     }
@@ -140,7 +128,7 @@ public class AuthService implements IAuthService, UserDetailsService  {
 
     //Requests reset password (from the settings page)
     @Override
-    public String requestReset(String email) {
+    public ResetResponse requestReset(String email) {
         Optional<UserModel> optionalUser = userRepository.findByEmail(email);
 
         if (optionalUser.isPresent()) {
@@ -156,7 +144,7 @@ public class AuthService implements IAuthService, UserDetailsService  {
 
             emailService.sendResetPasswordEmail(email, token);
 
-            return "If your email exists, a reset link has been sent.";
+            return new ResetResponse("If your email exists, a reset link has been sent.");
         }
 
         return null;
@@ -164,8 +152,10 @@ public class AuthService implements IAuthService, UserDetailsService  {
 
     //Requests forgot password (from the login page)
     @Override
-    public String requestForgot(String email) {
+    public ForgotResponse requestForgot(String email) {
         Optional<UserModel> optionalUser = userRepository.findByEmail(email);
+
+        System.out.println(optionalUser.isPresent());
 
         if (optionalUser.isPresent()) {
             UserModel user = optionalUser.get();
@@ -180,7 +170,7 @@ public class AuthService implements IAuthService, UserDetailsService  {
 
             forgotService.sendResetPasswordEmail(email, token);
 
-            return "If your email exists, a reset link has been sent.";
+            return new ForgotResponse("If your email exists, a reset link has been sent.");
         }
 
         return null;

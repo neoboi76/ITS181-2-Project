@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth-service';
-import { RegisterModel } from '../../models/register-model';
-import { TokenStorageService } from '../../services/token-storage-service';
+import { AuthService } from '../../services/auth.service';
+import { RegisterModel } from '../../models/register.model';
+import { TokenStorageService } from '../../services/token-storage.service';
 import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, RouterLink, NgClass],
-  templateUrl: './register.html',
-  styleUrl: './register.css',
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   registerForm!: FormGroup;

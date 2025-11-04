@@ -56,8 +56,17 @@ public class SecurityConfig {
                 .logout(logout -> logout.disable())//Logout is handled by the app
                 .authorizeHttpRequests(auth -> auth
                         //These endpoints don't need any authentication
-                        .requestMatchers("/login", "/register", "/reset-password", "/forgot-password", "/logout", "/request-reset", "/request-forgot").permitAll()
-                        //Admin endpoints need authentication
+                        .requestMatchers(
+                        "/login",
+                                "/register",
+                                "/reset-password",
+                                "/forgot-password",
+                                "/logout",
+                                "/request-reset",
+                                "/request-forgot",
+                                "/dogs/**",
+                                "/contact",
+                                "/application/**").permitAll()
                         .anyRequest().authenticated() //Any other not specified above endpoints need authentication
                 )
                 .sessionManagement(session -> session

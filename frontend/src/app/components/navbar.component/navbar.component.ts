@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { TokenStorageService } from '../../services/token-storage-service';
-import { AuthService } from '../../services/auth-service';
+import { TokenStorageService } from '../../services/token-storage.service';
+import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -11,12 +12,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isMenuOpen = false;
   showLogoutModal = false;
   isLoggedIn = false;
-  isAdmin = true;
+  isAdmin = false;
   userName = '';
+  private userSubscription?: Subscription;
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -28,15 +30,22 @@ export class NavbarComponent implements OnInit {
     this.checkLoginStatus();
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
   checkLoginStatus(): void {
     const token = this.tokenStorageService.getToken();
     this.isLoggedIn = !!token;
     
     if (this.isLoggedIn) {
-      const user = this.tokenStorageService.getUser();
-      user.subscribe((data: any) => {
-        this.userName = data.firstName || '';
-        this.isAdmin = data.role === 'ADMIN';
+      this.userSubscription = this.tokenStorageService.getUser().subscribe(user => {
+        if (user) {
+          this.userName = user.firstName || '';
+          this.isAdmin = user.role === 'ADMIN';
+        }
       });
     }
   }
@@ -51,6 +60,7 @@ export class NavbarComponent implements OnInit {
       event.stopPropagation();
     }
     this.showLogoutModal = true;
+    this.isMenuOpen = false;
     document.body.style.overflow = 'hidden';
   }
 
@@ -83,8 +93,13 @@ export class NavbarComponent implements OnInit {
         this.showLogoutModal = false;
         document.body.style.overflow = 'auto';
         this.isLoggedIn = false;
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
       }
     });
   }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
 }

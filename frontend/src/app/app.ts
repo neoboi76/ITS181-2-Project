@@ -1,11 +1,9 @@
-// app.ts
-import { Component } from '@angular/core';
-import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet, NavigationEnd, Event } from '@angular/router';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './components/navbar.component/navbar.component';
 import { FooterComponent } from './components/footer.component/footer.component';
-
 
 @Component({
   selector: 'app-root',
@@ -13,15 +11,28 @@ import { FooterComponent } from './components/footer.component/footer.component'
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit {
   showNavbarFooter = true;
 
-  constructor(private router: Router) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      const authRoutes = ['/login', '/register', '/reset-password', '/forgot-password'];
-      this.showNavbarFooter = !authRoutes.some(route => event.url.includes(route));
-    });
+  constructor(
+    private router: Router,
+    private viewportScroller: ViewportScroller
+  ) {}
+
+  ngOnInit() {
+    this.router.events
+      .pipe(filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        const authRoutes = ['/login', '/register', '/reset-password', '/forgot-password'];
+        const currentUrl = event.urlAfterRedirects || event.url;
+
+        this.showNavbarFooter = !authRoutes.some(route => 
+          currentUrl === route || currentUrl.startsWith(route + '?')
+        );
+        
+        setTimeout(() => {
+          this.viewportScroller.scrollToPosition([0, 0]);
+        }, 100);
+      });
   }
 }

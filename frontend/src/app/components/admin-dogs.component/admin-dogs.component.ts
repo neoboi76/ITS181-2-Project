@@ -82,6 +82,8 @@ export class AdminDogsComponent implements OnInit {
   openAddModal(): void {
     this.isEditMode = false;
     this.selectedDog = null;
+    this.successMessage = '';
+    this.errorMessage = '';
     this.dogForm.reset({
       age: 1,
       size: 'MEDIUM',
@@ -97,6 +99,8 @@ export class AdminDogsComponent implements OnInit {
   openEditModal(dog: Dog): void {
     this.isEditMode = true;
     this.selectedDog = dog;
+    this.successMessage = '';
+    this.errorMessage = '';
     this.dogForm.patchValue(dog);
     this.showModal = true;
     document.body.style.overflow = 'hidden';
@@ -111,12 +115,19 @@ export class AdminDogsComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.dogForm.invalid) return;
+    if (this.dogForm.invalid) {
+      Object.keys(this.dogForm.controls).forEach(key => {
+        const control = this.dogForm.get(key);
+        if (control && control.invalid) {
+          control.markAsTouched();
+        }
+      });
+      return;
+    }
 
     const dogData = this.dogForm.value;
 
     if (this.isEditMode && this.selectedDog) {
-      // Update existing dog
       this.dogService.updateDog(this.selectedDog.dogId, dogData).subscribe({
         next: (updatedDog) => {
           const index = this.dogs.findIndex(d => d.dogId === updatedDog.dogId);
@@ -133,7 +144,6 @@ export class AdminDogsComponent implements OnInit {
         }
       });
     } else {
-      // Create new dog
       this.dogService.createDog(dogData).subscribe({
         next: (newDog) => {
           this.dogs.unshift(newDog);

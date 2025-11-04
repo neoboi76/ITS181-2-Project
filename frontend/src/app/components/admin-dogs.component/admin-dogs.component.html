@@ -1,6 +1,6 @@
-<!-- admin-dogs.component.html -->
+<title>Dog Management</title>
+
 <div class="min-h-screen bg-[#F9FAFB]">
-  <!-- Header -->
   <div class="bg-white shadow-sm border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div class="flex items-center justify-between">
@@ -131,11 +131,11 @@
 </div>
 
 @if (showModal) {
-  <div class="fixed inset-0 z-[100] overflow-y-auto" (click)="closeModal()">
+  <div class="fixed inset-0 z-50 overflow-y-auto">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-40" (click)="closeModal()"></div>
       
-      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full"
+      <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full z-50"
            (click)="$event.stopPropagation()">
         
         <form [formGroup]="dogForm" (ngSubmit)="submitForm()">
@@ -258,12 +258,13 @@
     </div>
   </div>
 }
+
 @if (showDeleteConfirm) {
-  <div class="fixed inset-0 z-[100] overflow-y-auto" (click)="cancelDelete()">
+  <div class="fixed inset-0 z-50 overflow-y-auto">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75"></div>
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-40" (click)="cancelDelete()"></div>
       
-      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+      <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-50"
            (click)="$event.stopPropagation()">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
           <div class="sm:flex sm:items-start">

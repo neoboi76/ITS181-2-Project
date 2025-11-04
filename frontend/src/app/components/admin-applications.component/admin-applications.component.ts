@@ -85,6 +85,7 @@ export class AdminApplicationsComponent implements OnInit {
         if (this.selectedApplication?.applicationId === applicationId) {
           this.selectedApplication = updatedApp;
         }
+        this.closeDetailModal();
       },
       error: (err) => {
         console.error('Error updating status:', err);

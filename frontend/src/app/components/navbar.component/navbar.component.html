@@ -67,39 +67,39 @@
     <div class="md:hidden bg-white border-t border-gray-200">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <a routerLink="/home" (click)="toggleMenu()" 
-           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB]">
+           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           Home
         </a>
         <a routerLink="/our-pawls" (click)="toggleMenu()"
-           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB]">
+           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           Our Pawls
         </a>
         <a routerLink="/about" (click)="toggleMenu()"
-           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB]">
+           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           About
         </a>
         <a routerLink="/contact" (click)="toggleMenu()"
-           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB]">
+           class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           Contact
         </a>
         @if (isLoggedIn && isAdmin) {
-        <a routerLink="/admin" routerLinkActive="text-[#1E88E5]"
-            class="text-[#1A1A1A] hover:text-[#1E88E5] px-3 py-2 text-sm font-medium transition-colors duration-200">
+        <a routerLink="/admin" (click)="toggleMenu()"
+            class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
             <i class="fas fa-shield-alt mr-1"></i>Admin
         </a>
         }
         @if (isLoggedIn) {
           <a routerLink="/settings" (click)="toggleMenu()"
-             class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB]">
+             class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
             Settings
           </a>
-          <button type="button" (click)="openLogoutModal($event); toggleMenu()"
-                  class="w-full text-left px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB]">
+          <button type="button" (click)="openLogoutModal($event)"
+                  class="cursor-pointer w-full text-left px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
             Logout
           </button>
         } @else {
           <a routerLink="/login" (click)="toggleMenu()"
-             class="block px-3 py-2 text-base font-medium text-[#1E88E5] hover:bg-[#F9FAFB]">
+             class="cursor-pointer block px-3 py-2 text-base font-medium text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
             Sign In
           </a>
         }
@@ -109,30 +109,28 @@
 </nav>
 
 @if (showLogoutModal) {
-  <div 
-    class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50 
-           transition-opacity duration-300 animate-fadeIn"
-  >
-    <div class="bg-white text-gray-800 p-6 rounded-xl shadow-2xl w-[90%] max-w-sm 
-                transform scale-95 animate-popup">
-      <h2 class="text-lg font-semibold mb-4 text-center">Oh no. You're leaving...</h2>
-      <p class="text-sm text-center mb-6">Are you sure you want to log out?</p>
-
-      <div class="flex justify-center gap-4">
-        <button 
-          (click)="closeLogoutModal($event)" 
-          class="cursor-pointer px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md 
-                 transition-all duration-200"
-        >
-          No, Go Back
-        </button>
-        <button 
-          (click)="confirmLogout($event)" 
-          class="cursor-pointer px-4 py-2 bg-red-500 hover:bg-red-300 text-white rounded-md 
-                 transition-all duration-200"
-        >
-          Yes, Log Me Out
-        </button>
+  <div class="fixed inset-0 z-50 overflow-y-auto">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" (click)="closeLogoutModal($event)"></div>
+    <div class="flex min-h-full items-center justify-center p-4">
+      <div class="relative bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm transform transition-all duration-300 scale-100 opacity-100"
+           (click)="$event.stopPropagation()">
+        <div class="text-center">
+          <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+            <i class="fas fa-sign-out-alt text-red-600 text-xl"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Confirm Logout</h3>
+          <p class="text-sm text-gray-600 mb-6">Are you sure you want to log out of your account?</p>
+        </div>
+        <div class="flex gap-3">
+          <button type="button" (click)="closeLogoutModal($event)" 
+                  class="cursor-pointer flex-1 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition-colors duration-200">
+            Cancel
+          </button>
+          <button type="button" (click)="confirmLogout($event)" 
+                  class="cursor-pointer flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors duration-200">
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   </div>

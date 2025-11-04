@@ -27,6 +27,7 @@ export class OurPawlsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDogs();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   loadDogs(): void {

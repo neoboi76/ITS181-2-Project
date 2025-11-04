@@ -83,12 +83,30 @@ public class UserController {
         }
     }
 
+    //Handles forgot-password operations and logging
+    @PutMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotRequest request, HttpServletRequest httpRequest) {
+        try {
+
+            if(authService.isEmailValid(request.getEmail())) {
+                ResetResponse response = authService.forgotPassword(request);
+
+                return ResponseEntity.ok(response);
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Password reset failed: " + e.getMessage());
+        }
+
+        return null;
+    }
+
     @PostMapping("/request-reset")
     public ResponseEntity<?> requestReset(@RequestBody ResetRequest body, HttpServletRequest request) {
         try {
             String email = body.getEmail();
 
-            String msg = authService.requestReset(email);
+            ResetResponse msg = authService.requestReset(email);
 
             return ResponseEntity.ok(msg);
 
@@ -102,11 +120,9 @@ public class UserController {
     public ResponseEntity<?> requestForgot(@RequestBody ForgotRequest body, HttpServletRequest request) {
         try {
 
-            System.out.println(body.getEmail());
-
             String email = body.getEmail();
 
-            String msg = authService.requestForgot(email);
+            ForgotResponse msg = authService.requestForgot(email);
 
             return ResponseEntity.ok(msg);
 

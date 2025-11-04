@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth-service';
-import { TokenStorageService } from '../../services/token-storage-service';
+import { AuthService } from '../../services/auth.service';
+import { TokenStorageService } from '../../services/token-storage.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -11,12 +12,14 @@ import { TokenStorageService } from '../../services/token-storage-service';
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   settingsForm!: FormGroup;
   submitted = false;
   successMessage = '';
   errorMessage = '';
   userId: number = 0;
+  isLoading = true;
+  private userSubscription?: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -28,6 +31,15 @@ export class SettingsComponent implements OnInit {
     this.userId = this.tokenStorageService.getUsrId();
     this.initForm();
     this.loadUserData();
+    setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 100);
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
   initForm(): void {
@@ -52,12 +64,14 @@ export class SettingsComponent implements OnInit {
           country: user.country || '',
           language: user.language || ''
         });
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Error loading user data:', err);
         this.errorMessage = 'Failed to load user data';
       }
     });
+
   }
 
   get f() {
@@ -89,13 +103,17 @@ export class SettingsComponent implements OnInit {
     ).subscribe({
       next: (response) => {
         this.successMessage = 'Settings updated successfully!';
-        // Update the stored user data
-        const user = this.tokenStorageService.getUser();
-        user.subscribe((userData: any) => {
-          userData.firstName = formData.firstName;
-          userData.lastName = formData.lastName;
-          this.tokenStorageService.saveUser(userData);
-        });
+        
+        const currentUser = this.tokenStorageService.getUserSync();
+        if (currentUser) {
+          currentUser.firstName = formData.firstName;
+          currentUser.lastName = formData.lastName;
+          this.tokenStorageService.saveUser(currentUser);
+        }
+
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
       },
       error: (err) => {
         console.error('Error updating settings:', err);

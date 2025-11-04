@@ -2,18 +2,18 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TokenStorageService } from '../../services/token-storage-service';
-import { LoginModel } from '../../models/login-model';
-import { AuthService } from '../../services/auth-service';
+import { TokenStorageService } from '../../services/token-storage.service';
+import { LoginModel } from '../../models/login.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, RouterLink, NgClass, CommonModule],
-  templateUrl: './login.html',
-  styleUrl: './login.css',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   forgotPasswordForm!: FormGroup;
   submitted = false;
@@ -22,6 +22,7 @@ export class LoginComponent {
   showForgotPasswordModal = false;
   isRequestingReset = false;
   forgotPasswordMessage = '';
+  showPassword: boolean = false;
 
   constructor(
     private tokenStorageService: TokenStorageService,
@@ -29,8 +30,6 @@ export class LoginComponent {
     private router: Router,
     private fb: FormBuilder
   ) {}
-
-  showPassword: boolean = false;
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -85,6 +84,7 @@ export class LoginComponent {
 
   openForgotPasswordModal(event: Event): void {
     event.preventDefault();
+    event.stopPropagation();
     this.showForgotPasswordModal = true;
     this.forgotPasswordMessage = '';
     this.forgotPasswordForm.reset();
@@ -93,6 +93,8 @@ export class LoginComponent {
 
   closeForgotPasswordModal(): void {
     this.showForgotPasswordModal = false;
+    this.forgotPasswordMessage = '';
+    this.isRequestingReset = false;
     document.body.style.overflow = 'auto';
   }
 
@@ -110,7 +112,7 @@ export class LoginComponent {
         
         setTimeout(() => {
           this.closeForgotPasswordModal();
-        }, 3000);
+        }, 1500);
       },
       error: (err) => {
         console.error('Error requesting password reset:', err);

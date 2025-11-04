@@ -1,20 +1,20 @@
-// app.routes.ts (COMPLETE WITH ADMIN ROUTES)
 import { Routes } from '@angular/router';
-import { AuthGuard } from './services/auth-guard';
-import { LoginComponent } from './components/login/login';
-import { RegisterComponent } from './components/register/register';
-import { ResetPasswordComponent } from './components/reset-password/reset-password';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password';
+import { AuthGuard } from './services/auth-guard.service';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { HomeComponent } from './components/home.component/home.component';
 import { OurPawlsComponent } from './components/our-pawls.component/our-pawls.component';
 import { DogDetailComponent } from './components/dog-detail.component/dog-detail.component';
 import { AboutComponent } from './components/about.component/about.component';
 import { ContactComponent } from './components/contact.component/contact.component';
 import { SettingsComponent } from './components/settings.component/settings.component';
-import { AdminGuard } from './services/admin.guard';
+import { AdminGuard } from './services/admin-guard.service';
 import { AdminDashboardComponent } from './components/admin-dashboard.component/admin-dashboard.component';
 import { AdminDogsComponent } from './components/admin-dogs.component/admin-dogs.component';
 import { AdminApplicationsComponent } from './components/admin-applications.component/admin-applications.component';
+import { AdminContactsComponent } from './components/admin-contacts.component/admin-contacts.component';
 
 export const routes: Routes = [
 
@@ -36,7 +36,8 @@ export const routes: Routes = [
     children: [
       { path: '', component: AdminDashboardComponent },
       { path: 'dogs', component: AdminDogsComponent },
-      { path: 'applications', component: AdminApplicationsComponent }
+      { path: 'applications', component: AdminApplicationsComponent },
+      { path: 'contacts', component: AdminContactsComponent }
     ]
   },
   

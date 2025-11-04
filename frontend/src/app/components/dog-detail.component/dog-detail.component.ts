@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DogService } from '../../services/dog.service';
 import { ApplicationService } from '../../services/application.service';
-import { TokenStorageService } from '../../services/token-storage-service';
+import { TokenStorageService } from '../../services/token-storage.service';
 import { Dog } from '../../models/dog.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dog-detail',
@@ -14,7 +15,7 @@ import { Dog } from '../../models/dog.model';
   templateUrl: './dog-detail.component.html',
   styleUrl: './dog-detail.component.css'
 })
-export class DogDetailComponent implements OnInit {
+export class DogDetailComponent implements OnInit, OnDestroy {
   dog: Dog | null = null;
   applicationForm!: FormGroup;
   isLoading = true;
@@ -24,6 +25,7 @@ export class DogDetailComponent implements OnInit {
   errorMessage = '';
   isLoggedIn = false;
   userId: number = 0;
+  private userSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,18 +42,25 @@ export class DogDetailComponent implements OnInit {
     this.loadDog();
   }
 
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
   checkLoginStatus(): void {
     const token = this.tokenStorageService.getToken();
     this.isLoggedIn = !!token;
     if (this.isLoggedIn) {
       this.userId = this.tokenStorageService.getUsrId();
-      const user = this.tokenStorageService.getUser();
-      user.subscribe((data: any) => {
-        this.applicationForm.patchValue({
-          firstName: data.firstName || '',
-          lastName: data.lastName || '',
-          email: data.email || ''
-        });
+      this.userSubscription = this.tokenStorageService.getUser().subscribe(user => {
+        if (user) {
+          this.applicationForm.patchValue({
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            email: user.email || ''
+          });
+        }
       });
     }
   }

@@ -10,7 +10,7 @@
 }
 
 .animate-fade-in {
-  animation: fade-in 1s ease-out;
+  animation: fade-in 1s ease-out forwards;
 }
 
 .line-clamp-2 {
