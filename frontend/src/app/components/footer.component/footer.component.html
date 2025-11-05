@@ -1,111 +1,111 @@
 <footer class="bg-[#1A1A1A] text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div class="space-y-4">
-        <img src="assets/logo.png" alt="PawPortal Logo" class="h-16 w-auto mb-4">
-        <p class="text-gray-300 text-sm leading-relaxed">
-          PawPortal is dedicated to finding loving homes for rescued dogs in Valenzuela City. 
-          Every adoption makes a difference.
-        </p>
-      </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="space-y-4">
+                <img src="assets/logo.png" alt="PawPortal Logo" class="h-16 w-auto mb-4">
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    PawPortal is dedicated to finding loving homes for rescued dogs in Valenzuela City. 
+                    Every adoption makes a difference.
+                </p>
+            </div>
 
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-[#90CAF9] mb-4">Quick Links</h3>
-        <ul class="space-y-2">
-          <li>
-            <a routerLink="/home" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Home</a>
-          </li>
-          <li>
-            <a routerLink="/our-pawls" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Our Pawls</a>
-          </li>
-          <li>
-            <a routerLink="/about" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">About Us</a>
-          </li>
-          <li>
-            <a routerLink="/contact" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Contact</a>
-          </li>
-            @if (isLoggedIn) {
-              <li>
-                <a routerLink="/settings" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Settings</a>
-              </li>
-            }
-        </ul>
-      </div>
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold text-[#90CAF9] mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a routerLink="/home" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Home</a>
+                    </li>
+                    <li>
+                        <a routerLink="/our-pawls" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Our Pawls</a>
+                    </li>
+                    <li>
+                        <a routerLink="/about" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">About Us</a>
+                    </li>
+                    <li>
+                        <a routerLink="/contact" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Contact</a>
+                    </li>
+                    @if (isLoggedIn) {
+                        <li>
+                            <a routerLink="/settings" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Settings</a>
+                        </li>
+                    }
+                </ul>
+            </div>
 
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-[#90CAF9] mb-4">Contact Us</h3>
-        <ul class="space-y-3 text-sm">
-          <li class="flex items-start space-x-2">
-            <i class="fas fa-map-marker-alt text-[#90CAF9] mt-1"></i>
-            <span class="text-gray-300">123 McArthur Highway<br>Valenzuela City, Metro Manila<br>1440 Philippines</span>
-          </li>
-          <li class="flex items-center space-x-2">
-            <i class="fas fa-envelope text-[#90CAF9]"></i>
-            <a href="mailto:info@pawportal.ph" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200">
-              info&#64;pawportal.ph
-            </a>
-          </li>
-          <li class="flex items-center space-x-2">
-            <i class="fas fa-phone text-[#90CAF9]"></i>
-            <a href="tel:+639171234567" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200">
-              +63 917 123 4567
-            </a>
-          </li>
-        </ul>
-      </div>
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold text-[#90CAF9] mb-4">Contact Us</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start space-x-2">
+                        <i class="fas fa-map-marker-alt text-[#90CAF9] mt-1"></i>
+                        <span class="text-gray-300">123 McArthur Highway<br>Valenzuela City, Metro Manila<br>1440 Philippines</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="fas fa-envelope text-[#90CAF9]"></i>
+                        <a href="mailto:info@pawportal.ph" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200">
+                            pawportal.business@outlook.com
+                        </a>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="fas fa-phone text-[#90CAF9]"></i>
+                        <a href="tel:+639171234567" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200">
+                            +63 917 123 4567
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-[#90CAF9] mb-4">Support Us</h3>
+            <div class="space-y-4">
+                <h3 class="text-lg font-semibold text-[#90CAF9] mb-4">Support Us</h3>
 
-        <div class="space-y-2 text-sm mb-6">
-          <p class="text-gray-300 font-medium">Donate via Bank Transfer:</p>
-          <div class="bg-[#2A2A2A] p-3 rounded-lg space-y-1">
-            <p class="text-gray-300">
-              <span class="font-semibold">BDO:</span> 012345678901<br>
-              <span class="font-semibold">BPI:</span> 987654321098<br>
-              <span class="text-xs text-gray-400">Account Name: PawPortal Foundation</span>
-            </p>
-          </div>
-          <div class="bg-[#2A2A2A] p-3 rounded-lg space-y-1">
-            <p class="text-gray-300">
-              <span class="font-semibold">GCash:</span> 09171234567<br>
-              <span class="font-semibold">PayMaya:</span> 09181234567
-            </p>
-          </div>
+                <div class="space-y-2 text-sm mb-6">
+                    <p class="text-gray-300 font-medium">Donate via Bank Transfer:</p>
+                    <div class="bg-[#2A2A2A] p-3 rounded-lg space-y-1">
+                        <p class="text-gray-300">
+                            <span class="font-semibold">BDO:</span> 012345678901<br>
+                            <span class="font-semibold">BPI:</span> 987654321098<br>
+                            <span class="text-xs text-gray-400">Account Name: PawPortal Foundation</span>
+                        </p>
+                    </div>
+                    <div class="bg-[#2A2A2A] p-3 rounded-lg space-y-1">
+                        <p class="text-gray-300">
+                            <span class="font-semibold">GCash:</span> 09171234567<br>
+                            <span class="font-semibold">PayMaya:</span> 09181234567
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-gray-300 font-medium mb-3 text-sm">Follow Us:</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/profile.php?id=61583229427256" target="_blank" rel="noopener noreferrer" 
+                           class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
+                            <i class="fab fa-facebook text-2xl"></i>
+                        </a>
+                        <a href="https://www.instagram.com/pawportal.business/" target="_blank" rel="noopener noreferrer"
+                           class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </a>
+                        <a href="https://x.com/pawportal_info" target="_blank" rel="noopener noreferrer"
+                           class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
+                            <i class="fab fa-twitter text-2xl"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@PawPortal-f4u7u" target="_blank" rel="noopener noreferrer"
+                           class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
+                            <i class="fab fa-youtube text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div>
-          <p class="text-gray-300 font-medium mb-3 text-sm">Follow Us:</p>
-          <div class="flex space-x-4">
-            <a href="https://www.facebook.com/profile.php?id=61583229427256" target="_blank" rel="noopener noreferrer" 
-               class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
-              <i class="fab fa-facebook text-2xl"></i>
-            </a>
-            <a href="https://www.instagram.com/pawportal.business/" target="_blank" rel="noopener noreferrer"
-               class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
-              <i class="fab fa-instagram text-2xl"></i>
-            </a>
-            <a href="https://x.com/pawportal_info" target="_blank" rel="noopener noreferrer"
-               class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
-              <i class="fab fa-twitter text-2xl"></i>
-            </a>
-            <a href="https://www.youtube.com/@PawPortal-f4u7u" target="_blank" rel="noopener noreferrer"
-               class="text-gray-300 hover:text-[#90CAF9] transition hover:scale-110">
-              <i class="fab fa-youtube text-2xl"></i>
-            </a>
-          </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                © {{ currentYear }} PawPortal. All rights reserved. | Valenzuela City Veterinary Office
+            </p>
+            <div class="flex space-x-6 text-sm">
+                <a routerLink="/privacy-policy" (click)="scrollToTop()" class="text-gray-400 hover:text-[#90CAF9] transition-colors duration-200">Privacy Policy</a>
+                <a routerLink="/terms-of-service" (click)="scrollToTop()" class="text-gray-400 hover:text-[#90CAF9] transition-colors duration-200">Terms of Service</a>
+            </div>
         </div>
-      </div>
     </div>
-
-    <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-      <p class="text-gray-400 text-sm mb-4 md:mb-0">
-        © {{ currentYear }} PawPortal. All rights reserved. | Valenzuela City Veterinary Office
-      </p>
-      <div class="flex space-x-6 text-sm">
-        <a href="#" class="text-gray-400 hover:text-[#90CAF9] transition-colors duration-200">Privacy Policy</a>
-        <a href="#" class="text-gray-400 hover:text-[#90CAF9] transition-colors duration-200">Terms of Service</a>
-      </div>
-    </div>
-  </div>
 </footer>

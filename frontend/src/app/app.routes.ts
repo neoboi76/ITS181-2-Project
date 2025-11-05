@@ -3,6 +3,7 @@ import { AdminDogsComponent } from './components/admin-dogs.component/admin-dogs
 import { AdminApplicationsComponent } from './components/admin-applications.component/admin-applications.component';
 import { AdminContactsComponent } from './components/admin-contacts.component/admin-contacts.component';
 import { AdminUsersComponent } from './components/admin-users.component/admin-users.component';
+import { AdminAuditLogsComponent } from './components/admin-audit-logs.component/admin-audit-logs.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
@@ -14,6 +15,8 @@ import { DogDetailComponent } from './components/dog-detail.component/dog-detail
 import { AboutComponent } from './components/about.component/about.component';
 import { ContactComponent } from './components/contact.component/contact.component';
 import { SettingsComponent } from './components/settings.component/settings.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy.component/privacy-policy.component';
+import { TermsOfServiceComponent } from './components/terms-of-service.component/terms-of-service.component';
 import { AdminGuard } from './services/admin-guard.service';
 import { Routes } from '@angular/router';
 
@@ -30,6 +33,8 @@ export const routes: Routes = [
     { path: 'about', component: AboutComponent},
     { path: 'contact', component: ContactComponent},
     { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
+    { path: 'privacy-policy', component: PrivacyPolicyComponent},
+    { path: 'terms-of-service', component: TermsOfServiceComponent},
     
     { 
         path: 'admin', 
@@ -39,7 +44,8 @@ export const routes: Routes = [
             { path: 'dogs', component: AdminDogsComponent },
             { path: 'applications', component: AdminApplicationsComponent },
             { path: 'contacts', component: AdminContactsComponent },
-            { path: 'users', component: AdminUsersComponent }
+            { path: 'users', component: AdminUsersComponent },
+            { path: 'audit-logs', component: AdminAuditLogsComponent }
         ]
     },
     

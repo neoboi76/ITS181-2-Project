@@ -267,8 +267,20 @@ public class UserController {
 
     @GetMapping("/admin/audit-logs")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getAuditLogs() {
-        return ResponseEntity.ok(auditLogService.getAllAuditLogs());
+    public ResponseEntity<?> getAuditLogs(HttpServletRequest request) {
+        try {
+            String token = getTokenFromRequest(request);
+            String email = jwtTokenProvider.getEmailFromToken(token);
+            Long userId = authService.getUserIdByEmail(email);
+
+            auditLogService.logAction(userId, AuditAction.SEARCH_PERFORMED,
+                    getClientIp(request), request.getHeader("User-Agent"),
+                    "Admin viewed audit logs");
+
+            return ResponseEntity.ok(auditLogService.getAllAuditLogs());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to retrieve audit logs: " + e.getMessage());
+        }
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
