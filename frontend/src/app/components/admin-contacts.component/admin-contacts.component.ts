@@ -23,6 +23,7 @@ export class AdminContactsComponent implements OnInit {
   constructor(private contactService: ContactService) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.loadContacts();
   }
 

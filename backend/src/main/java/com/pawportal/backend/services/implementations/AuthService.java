@@ -74,6 +74,11 @@ public class AuthService implements IAuthService, UserDetailsService  {
     public LoginResponse login(LoginRequest request) {
         UserModel user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found after successful authentication."));
+
+        if (user.getSuspended() != null && user.getSuspended()) {
+            throw new RuntimeException("Account has been suspended. Please contact support.");
+        }
+
         String token = jwtTokenProvider.generateToken(user.getEmail());
 
         return new LoginResponse(

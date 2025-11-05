@@ -13,20 +13,20 @@
         <h3 class="text-lg font-semibold text-[#90CAF9] mb-4">Quick Links</h3>
         <ul class="space-y-2">
           <li>
-            <a routerLink="/home" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Home</a>
+            <a routerLink="/home" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Home</a>
           </li>
           <li>
             <a routerLink="/our-pawls" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Our Pawls</a>
           </li>
           <li>
-            <a routerLink="/about" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">About Us</a>
+            <a routerLink="/about" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">About Us</a>
           </li>
           <li>
-            <a routerLink="/contact" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Contact</a>
+            <a routerLink="/contact" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Contact</a>
           </li>
             @if (isLoggedIn) {
               <li>
-                <a routerLink="/settings" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Settings</a>
+                <a routerLink="/settings" (click)="scrollToTop()" class="text-gray-300 hover:text-[#90CAF9] transition-colors duration-200 text-sm">Settings</a>
               </li>
             }
         </ul>

@@ -20,23 +20,25 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadFeaturedDogs();
-  }
+        window.scrollTo(0, 0);
+        this.loadFeaturedDogs();
+    }
 
   loadFeaturedDogs(): void {
     this.dogService.getAvailableDogs().subscribe({
-      next: (dogs) => {
-        this.featuredDogs = dogs.sort(() => 0.5 - Math.random()).slice(0, 3);
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error loading dogs:', err);
-        this.isLoading = false;
-      }
+        next: (dogs) => {
+            this.featuredDogs = dogs.sort(() => 0.5 - Math.random()).slice(0, 3);
+            this.isLoading = false;
+        },
+        error: (err) => {
+            console.error('Error loading dogs:', err);
+            this.isLoading = false;
+        }
     });
   }
 
   viewDog(dogId: number): void {
+    window.scrollTo(0, 0);
     this.router.navigate(['/our-pawls', dogId]);
   }
 }

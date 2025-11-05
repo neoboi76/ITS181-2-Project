@@ -25,6 +25,7 @@ export class AdminApplicationsComponent implements OnInit {
   constructor(private applicationService: ApplicationService) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.loadApplications();
   }
 

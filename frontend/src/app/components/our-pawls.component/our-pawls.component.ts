@@ -26,8 +26,8 @@ export class OurPawlsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.loadDogs();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   loadDogs(): void {
@@ -65,6 +65,7 @@ export class OurPawlsComponent implements OnInit {
   }
 
   viewDog(dogId: number): void {
+    window.scrollTo(0, 0);
     this.router.navigate(['/our-pawls', dogId]);
   }
 }

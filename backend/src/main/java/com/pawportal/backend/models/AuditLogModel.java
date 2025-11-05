@@ -38,9 +38,6 @@ public class AuditLogModel {
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
 
-    // Related entity IDs for reference
-    private Long verificationId;
-
     private Boolean success = true;
 
     @Column(columnDefinition = "TEXT")

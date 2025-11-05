@@ -1,186 +1,186 @@
 <title>Admin Dashboard</title>
 
 <div class="min-h-screen bg-[#F9FAFB]">
-  <div class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div class="flex items-center justify-between">
-        <div>
-          <h1 class="text-3xl font-bold text-[#1A1A1A]">Admin Dashboard</h1>
-          <p class="text-gray-600 mt-1">Manage dogs and adoption applications</p>
-        </div>
-        <img src="assets/logo.png" alt="PawPortal" class="h-16">
-      </div>
-    </div>
-  </div>
-
-  @if (isLoading) {
-    <div class="flex justify-center items-center py-20">
-      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#1E88E5]"></div>
-    </div>
-  } @else {
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#1E88E5]">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-gray-600 text-sm font-medium">Total Dogs</p>
-              <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.totalDogs }}</p>
-            </div>
-            <div class="w-12 h-12 bg-[#1E88E5] bg-opacity-10 rounded-full flex items-center justify-center">
-              <i class="fas fa-paw text-[#1E88E5] text-xl"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-gray-600 text-sm font-medium">Available</p>
-              <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.availableDogs }}</p>
-            </div>
-            <div class="w-12 h-12 bg-green-500 bg-opacity-10 rounded-full flex items-center justify-center">
-              <i class="fas fa-check-circle text-green-500 text-xl"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-gray-600 text-sm font-medium">Adopted</p>
-              <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.adoptedDogs }}</p>
-            </div>
-            <div class="w-12 h-12 bg-blue-500 bg-opacity-10 rounded-full flex items-center justify-center">
-              <i class="fas fa-heart text-blue-500 text-xl"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#FFB74D]">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-gray-600 text-sm font-medium">Pending Apps</p>
-              <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.pendingApplications }}</p>
-            </div>
-            <div class="w-12 h-12 bg-[#FFB74D] bg-opacity-10 rounded-full flex items-center justify-center">
-              <i class="fas fa-clock text-[#FFB74D] text-xl"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-600">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-gray-600 text-sm font-medium">Approved Apps</p>
-              <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.approvedApplications }}</p>
-            </div>
-            <div class="w-12 h-12 bg-green-600 bg-opacity-10 rounded-full flex items-center justify-center">
-              <i class="fas fa-check text-green-600 text-xl"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <a routerLink="/admin/dogs" 
-           class="bg-gradient-to-r from-[#1E88E5] to-[#1976D2] text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-          <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-              <i class="fas fa-dog text-2xl"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold">Manage Dogs</h3>
-              <p class="text-sm text-blue-100">Add, edit, or remove dogs</p>
-            </div>
-          </div>
-        </a>
-
-        <a routerLink="/admin/applications" 
-           class="bg-gradient-to-r from-[#FFB74D] to-[#FFA726] text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-          <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-              <i class="fas fa-file-alt text-2xl"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold">Review Applications</h3>
-              <p class="text-sm text-orange-100">Approve or reject adoptions</p>
-            </div>
-          </div>
-        </a>
-
-        <a routerLink="/admin/contacts" 
-           class="bg-gradient-to-r from-[#90CAF9] to-[#64B5F6] text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-          <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-              <i class="fas fa-envelope text-2xl"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold">Contact Messages</h3>
-              <p class="text-sm text-blue-100">View user inquiries</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        <div class="bg-white rounded-xl shadow-lg p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-[#1A1A1A]">Recent Dogs</h2>
-            <a routerLink="/admin/dogs" class="text-[#1E88E5] hover:text-[#1976D2] text-sm font-medium">
-              View All →
-            </a>
-          </div>
-          
-          @if (recentDogs.length > 0) {
-            <div class="space-y-4">
-              @for (dog of recentDogs; track dog.dogId) {
-                <div class="flex items-center space-x-4 p-4 bg-[#F9FAFB] rounded-lg hover:bg-gray-100 transition-colors">
-                  <img [src]="dog.imageUrl" [alt]="dog.name" class="w-16 h-16 rounded-lg object-cover">
-                  <div class="flex-1">
-                    <h3 class="font-semibold text-[#1A1A1A]">{{ dog.name }}</h3>
-                    <p class="text-sm text-gray-600">{{ dog.breed }} • {{ dog.age }} years</p>
-                  </div>
-                  <span [class]="'px-3 py-1 rounded-full text-xs font-semibold ' + getStatusColor(dog.status)">
-                    {{ dog.status }}
-                  </span>
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold text-[#1A1A1A]">Admin Dashboard</h1>
+                    <p class="text-gray-600 mt-1">Manage dogs and adoption applications</p>
                 </div>
-              }
+                <img src="assets/logo.png" alt="PawPortal" class="h-16">
             </div>
-          } @else {
-            <p class="text-gray-500 text-center py-8">No dogs yet</p>
-          }
         </div>
-
-        <div class="bg-white rounded-xl shadow-lg p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-[#1A1A1A]">Recent Applications</h2>
-            <a routerLink="/admin/applications" class="text-[#1E88E5] hover:text-[#1976D2] text-sm font-medium">
-              View All →
-            </a>
-          </div>
-          
-          @if (recentApplications.length > 0) {
-            <div class="space-y-4">
-              @for (app of recentApplications; track app.applicationId) {
-                <div class="flex items-center justify-between p-4 bg-[#F9FAFB] rounded-lg hover:bg-gray-100 transition-colors">
-                  <div class="flex-1">
-                    <h3 class="font-semibold text-[#1A1A1A]">{{ app.firstName }} {{ app.lastName }}</h3>
-                    <p class="text-sm text-gray-600">{{ app.email }}</p>
-                  </div>
-                  <span [class]="'px-3 py-1 rounded-full text-xs font-semibold ' + getStatusColor(app.status || 'PENDING')">
-                    {{ app.status || 'PENDING' }}
-                  </span>
-                </div>
-              }
-            </div>
-          } @else {
-            <p class="text-gray-500 text-center py-8">No applications yet</p>
-          }
-        </div>
-
-      </div>
     </div>
-  }
+
+    @if (isLoading) {
+        <div class="flex justify-center items-center py-20">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#1E88E5]"></div>
+        </div>
+    } @else {
+        <div class="max-w-7xl mx-auto px-8 py-10 space-y-12">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#1E88E5]">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Total Dogs</p>
+                        <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.totalDogs }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-[#1E88E5] bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-paw text-[#1E88E5] text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Available</p>
+                        <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.availableDogs }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-500 bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#FFB74D]">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Total Users</p>
+                        <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.totalUsers }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-[#FFB74D] bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-users text-[#FFB74D] text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Pending Apps</p>
+                        <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.pendingApplications }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-500 bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-clock text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Adopted</p>
+                        <p class="text-3xl font-bold text-[#1A1A1A] mt-2">{{ stats.adoptedDogs }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-500 bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-heart text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <a routerLink="/admin/dogs" class="bg-gradient-to-r from-[#1E88E5] to-[#1976D2] text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-dog text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">Manage Dogs</h3>
+                        <p class="text-sm text-blue-100">Add, edit, or remove dogs</p>
+                    </div>
+                </div>
+            </a>
+
+            <a routerLink="/admin/applications" class="bg-gradient-to-r from-[#FFB74D] to-[#FFA726] text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-file-alt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">Review Applications</h3>
+                        <p class="text-sm text-orange-100">Approve or reject adoptions</p>
+                    </div>
+                </div>
+            </a>
+
+            <a routerLink="/admin/users" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">Manage Users</h3>
+                        <p class="text-sm text-purple-100">View and manage accounts</p>
+                    </div>
+                </div>
+            </a>
+
+            <a routerLink="/admin/contacts" class="bg-gradient-to-r from-[#90CAF9] to-[#64B5F6] text-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold">Contact Messages</h3>
+                        <p class="text-sm text-blue-100">View user inquiries</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-[#1A1A1A]">Recent Dogs</h2>
+                    <a routerLink="/admin/dogs" class="text-[#1E88E5] hover:text-[#1976D2] text-sm font-medium">View All →</a>
+                </div>
+                @if (recentDogs.length > 0) {
+                    <div class="space-y-4">
+                        @for (dog of recentDogs; track dog.dogId) {
+                            <div class="flex items-center space-x-4 p-4 bg-[#F9FAFB] rounded-lg hover:bg-gray-100 transition-colors">
+                                <img [src]="dog.imageUrl" [alt]="dog.name" class="w-16 h-16 rounded-lg object-cover">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-[#1A1A1A]">{{ dog.name }}</h3>
+                                    <p class="text-sm text-gray-600">{{ dog.breed }} • {{ dog.age }} years</p>
+                                </div>
+                                <span [class]="'px-3 py-1 rounded-full text-xs font-semibold ' + getStatusColor(dog.status)">
+                                    {{ dog.status }}
+                                </span>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <p class="text-gray-500 text-center py-8">No dogs yet</p>
+                }
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-[#1A1A1A]">Recent Applications</h2>
+                    <a routerLink="/admin/applications" class="text-[#1E88E5] hover:text-[#1976D2] text-sm font-medium">View All →</a>
+                </div>
+                @if (recentApplications.length > 0) {
+                    <div class="space-y-4">
+                        @for (app of recentApplications; track app.applicationId) {
+                            <div class="flex items-center justify-between p-4 bg-[#F9FAFB] rounded-lg hover:bg-gray-100 transition-colors">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-[#1A1A1A]">{{ app.firstName }} {{ app.lastName }}</h3>
+                                    <p class="text-sm text-gray-600">{{ app.email }}</p>
+                                </div>
+                                <span [class]="'px-3 py-1 rounded-full text-xs font-semibold ' + getStatusColor(app.status || 'PENDING')">
+                                    {{ app.status || 'PENDING' }}
+                                </span>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <p class="text-gray-500 text-center py-8">No applications yet</p>
+                }
+            </div>
+        </div>
+    </div>
+    }
 </div>

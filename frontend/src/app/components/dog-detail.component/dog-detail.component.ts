@@ -37,6 +37,7 @@ export class DogDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.checkLoginStatus();
     this.initForm();
     this.loadDog();

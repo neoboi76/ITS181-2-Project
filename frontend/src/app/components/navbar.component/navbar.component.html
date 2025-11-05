@@ -10,18 +10,22 @@
       <div class="hidden md:flex items-center space-x-8">
         <a routerLink="/home" routerLinkActive="text-[#1E88E5]" 
             [routerLinkActiveOptions]="{exact: false}"
+            (click)="scrollToTop()"
             class="text-[#1A1A1A] hover:text-[#1E88E5] px-3 py-2 text-sm font-medium transition-colors duration-200">
             Home
         </a>
         <a routerLink="/our-pawls" routerLinkActive="text-[#1E88E5]"
+            (click)="scrollToTop()"
             class="text-[#1A1A1A] hover:text-[#1E88E5] px-3 py-2 text-sm font-medium transition-colors duration-200">
             Our Pawls
         </a>
         <a routerLink="/about" routerLinkActive="text-[#1E88E5]"
+            (click)="scrollToTop()"
             class="text-[#1A1A1A] hover:text-[#1E88E5] px-3 py-2 text-sm font-medium transition-colors duration-200">
             About
         </a>
         <a routerLink="/contact" routerLinkActive="text-[#1E88E5]"
+            (click)="scrollToTop()"
             class="text-[#1A1A1A] hover:text-[#1E88E5] px-3 py-2 text-sm font-medium transition-colors duration-200">
             Contact
         </a>
@@ -29,11 +33,13 @@
         @if (isLoggedIn) {
             @if (isAdmin) {
             <a routerLink="/admin" routerLinkActive="text-[#1E88E5]"
+                (click)="scrollToTop()"
                 class="text-[#1A1A1A] hover:text-[#1E88E5] px-3 py-2 text-sm font-medium transition-colors duration-200">
                 <i class="fas fa-shield-alt mr-1"></i>Admin
             </a>
             }
             <a routerLink="/settings" routerLinkActive="text-[#1E88E5]"
+            (click)="scrollToTop()"
             class="text-[#1A1A1A] hover:text-[#1E88E5] px-3 py-2 text-sm font-medium transition-colors duration-200">
             Settings
             </a>
@@ -66,30 +72,30 @@
   @if (isMenuOpen) {
     <div class="md:hidden bg-white border-t border-gray-200">
       <div class="px-2 pt-2 pb-3 space-y-1">
-        <a routerLink="/home" (click)="toggleMenu()" 
+        <a routerLink="/home" (click)="toggleMenu(); scrollToTop()" 
            class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           Home
         </a>
-        <a routerLink="/our-pawls" (click)="toggleMenu()"
+        <a routerLink="/our-pawls" (click)="toggleMenu(); scrollToTop()"
            class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           Our Pawls
         </a>
-        <a routerLink="/about" (click)="toggleMenu()"
+        <a routerLink="/about" (click)="toggleMenu(); scrollToTop()"
            class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           About
         </a>
-        <a routerLink="/contact" (click)="toggleMenu()"
+        <a routerLink="/contact" (click)="toggleMenu(); scrollToTop()"
            class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
           Contact
         </a>
         @if (isLoggedIn && isAdmin) {
-        <a routerLink="/admin" (click)="toggleMenu()"
+        <a routerLink="/admin" (click)="toggleMenu(); scrollToTop()"
             class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
             <i class="fas fa-shield-alt mr-1"></i>Admin
         </a>
         }
         @if (isLoggedIn) {
-          <a routerLink="/settings" (click)="toggleMenu()"
+          <a routerLink="/settings" (click)="toggleMenu(); scrollToTop()"
              class="block px-3 py-2 text-base font-medium text-[#1A1A1A] hover:text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
             Settings
           </a>
@@ -98,7 +104,7 @@
             Logout
           </button>
         } @else {
-          <a routerLink="/login" (click)="toggleMenu()"
+          <a routerLink="/login" (click)="toggleMenu(); scrollToTop()"
              class="cursor-pointer block px-3 py-2 text-base font-medium text-[#1E88E5] hover:bg-[#F9FAFB] rounded-lg transition-all duration-200">
             Sign In
           </a>
