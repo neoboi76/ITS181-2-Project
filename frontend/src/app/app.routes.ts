@@ -4,8 +4,8 @@ import { AdminApplicationsComponent } from './components/admin-applications.comp
 import { AdminContactsComponent } from './components/admin-contacts.component/admin-contacts.component';
 import { AdminUsersComponent } from './components/admin-users.component/admin-users.component';
 import { AdminAuditLogsComponent } from './components/admin-audit-logs.component/admin-audit-logs.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login.component/login.component';
+import { RegisterComponent } from './components/register.component/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { HomeComponent } from './components/home.component/home.component';

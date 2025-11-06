@@ -192,4 +192,69 @@ export class AdminDogsComponent implements OnInit {
   get f() {
     return this.dogForm.controls;
   }
+
+  exportDogsToCSV(): void {
+    const csvContent = this.generateDogsCSV();
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `pawportal-dogs-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+    
+    this.successMessage = 'Dogs exported successfully!';
+    setTimeout(() => this.successMessage = '', 3000);
+  }
+
+  generateDogsCSV(): string {
+    const headers = [
+      'Dog ID',
+      'Name',
+      'Breed',
+      'Age',
+      'Gender',
+      'Size',
+      'Status',
+      'Vaccinated',
+      'Spayed/Neutered',
+      'Temperament',
+      'Description',
+      'Image URL',
+      'Created Date',
+      'Updated Date'
+    ];
+
+    const rows = this.filteredDogs.map(dog => [
+      dog.dogId,
+      dog.name,
+      dog.breed,
+      dog.age,
+      dog.gender,
+      dog.size,
+      dog.status,
+      dog.vaccinated ? 'Yes' : 'No',
+      dog.spayedNeutered ? 'Yes' : 'No',
+      dog.temperament || 'N/A',
+      dog.description.replace(/"/g, '""'), // Escape quotes in description
+      dog.imageUrl,
+      new Date(dog.createdAt).toLocaleDateString('en-US'),
+      new Date(dog.updatedAt).toLocaleDateString('en-US')
+    ]);
+
+    const csvRows = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ];
+
+    return csvRows.join('\n');
+  }
+
+  clearFilters(): void {
+     this.searchTerm = '';
+     this.filterStatus = '';
+     this.filteredDogs = this.dogs;
+   }
+
 }
+

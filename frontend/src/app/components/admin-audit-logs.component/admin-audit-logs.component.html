@@ -48,11 +48,11 @@
             </div>
             <div class="mt-4 flex gap-4">
                 <button (click)="clearFilters()"
-                        class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">
+                        class="cursor-pointer px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">
                     Clear Filters
                 </button>
                 <button (click)="exportLogs()"
-                        class="px-6 py-2 bg-[#1E88E5] text-white rounded-lg hover:bg-[#1976D2] transition-colors duration-200">
+                        class="cursor-pointer px-6 py-2 bg-[#1E88E5] text-white rounded-lg hover:bg-[#1976D2] transition-colors duration-200">
                     <i class="fas fa-download mr-2"></i>Export CSV
                 </button>
             </div>
@@ -118,8 +118,8 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         <button (click)="viewDetails(log)"
-                                                class="text-[#1E88E5] hover:text-[#1976D2] font-medium">
-                                            <i class="fas fa-eye"></i> View Details
+                                                class="cursor-pointer text-[#1E88E5] hover:text-[#1976D2] font-medium">
+                                            <i class="cursor-pointerfas fa-eye"></i> View Details
                                         </button>
                                     </td>
                                 </tr>
@@ -138,7 +138,7 @@
                 <h3 class="text-xl font-bold text-gray-700 mb-2">No Audit Logs Found</h3>
                 <p class="text-gray-600 mb-6">Try adjusting your filters to see more results</p>
                 <button (click)="clearFilters()"
-                        class="bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2]">
+                        class="cursor-pointer bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2]">
                     Clear Filters
                 </button>
             </div>
@@ -147,18 +147,18 @@
 </div>
 
 @if (showDetailModal && selectedLog) {
-    <div class="fixed inset-0 z-50 overflow-y-auto" (click)="closeDetailModal()">
+    <div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn" (click)="closeDetailModal()">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-40"></div>
+            <div class="fixed inset-0 bg-opacity-75 z-40 transition-opacity duration-300 ease-out animate-fadeIn"></div>
             
-            <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full max-h-[90vh] overflow-y-auto z-50"
+            <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full max-h-[90vh] overflow-y-auto z-50 animate-scaleIn"
                  (click)="$event.stopPropagation()">
                 
                 <div class="bg-gradient-to-r from-[#1E88E5] to-[#1976D2] px-6 py-4">
                     <div class="flex items-center justify-between">
                         <h3 class="text-xl font-bold text-white">Audit Log Details</h3>
-                        <button (click)="closeDetailModal()" class="text-white hover:text-gray-200">
-                            <i class="fas fa-times text-2xl"></i>
+                        <button (click)="closeDetailModal()" class="cursor-pointertext-white hover:text-gray-200">
+                            <i class="cursor-pointer `fas fa-times text-2xl"></i>
                         </button>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                 <div class="bg-gray-50 px-6 py-4">
                     <div class="flex justify-end">
                         <button (click)="closeDetailModal()"
-                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-semibold">
+                                class="cursor-pointer px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-semibold">
                             Close
                         </button>
                     </div>

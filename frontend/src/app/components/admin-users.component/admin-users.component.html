@@ -18,7 +18,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                 <div class="md:col-span-2">
                     <input type="text" 
                            [(ngModel)]="searchTerm"
@@ -44,6 +44,17 @@
                         <option value="suspended">Suspended</option>
                     </select>
                 </div>
+            </div>
+            
+            <div class="flex gap-4">
+                <button (click)="exportUsersToCSV()"
+                        class="cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200">
+                    <i class="fas fa-file-csv mr-2"></i>Export to CSV
+                </button>
+                <button (click)="clearFilters()"
+                        class="cursor-pointer px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">
+                    Clear Filters
+                </button>
             </div>
         </div>
 
@@ -122,8 +133,8 @@
                                         @if (user.role !== 'ADMIN') {
                                             @if (!user.suspended) {
                                                 <button (click)="openConfirmModal('suspend', user)"
-                                                        class="text-orange-600 hover:text-orange-900 mr-3">
-                                                    <i class="fas fa-ban"></i> Suspend
+                                                        class="cursor-pointer text-orange-600 hover:text-orange-900 mr-3">
+                                                    <i class="cursor-pointer fas fa-ban"></i> Suspend
                                                 </button>
                                             } @else {
                                                 <button (click)="openConfirmModal('activate', user)"
@@ -132,8 +143,8 @@
                                                 </button>
                                             }
                                             <button (click)="openConfirmModal('delete', user)"
-                                                    class="text-red-600 hover:text-red-900">
-                                                <i class="fas fa-trash"></i> Delete
+                                                    class="cursor-pointer text-red-600 hover:text-red-900">
+                                                <i class="cursor-pointer fas fa-trash"></i> Delete
                                             </button>
                                         } @else {
                                             <span class="text-gray-400">Admin User</span>
@@ -151,7 +162,7 @@
                 <h3 class="text-xl font-bold text-gray-700 mb-2">No Users Found</h3>
                 <p class="text-gray-600 mb-6">Try adjusting your filters</p>
                 <button (click)="clearFilters()"
-                        class="bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2]">
+                        class="cursor-pointer bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2]">
                     Clear Filters
                 </button>
             </div>
@@ -160,11 +171,11 @@
 </div>
 
 @if (showConfirmModal && selectedUser) {
-    <div class="fixed inset-0 z-50 overflow-y-auto">
+    <div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-40" (click)="closeConfirmModal()"></div>
+            <div class="fixed inset- bg-opacity-75 z-40 transition-opacity duration-300 ease-out animate-fadeIn" (click)="closeConfirmModal()"></div>
             
-            <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-50"
+            <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-50 animate-scaleIn"
                  (click)="$event.stopPropagation()">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
                     <div class="sm:flex sm:items-start">
@@ -175,8 +186,8 @@
                                 'bg-green-100': confirmAction === 'activate'
                              }">
                             <i class="text-xl" [ngClass]="{
-                                'fas fa-exclamation-triangle text-red-600': confirmAction === 'delete',
-                                'fas fa-ban text-orange-600': confirmAction === 'suspend',
+                                'fas fa-exclamation-triangle text-red-900 ': confirmAction === 'delete',
+                                'fas fa-ban text-orange-600 hover:bg-orange-800': confirmAction === 'suspend',
                                 'fas fa-check-circle text-green-600': confirmAction === 'activate'
                             }"></i>
                         </div>
@@ -195,11 +206,11 @@
                                 'bg-orange-600 hover:bg-orange-700': confirmAction === 'suspend',
                                 'bg-green-600 hover:bg-green-700': confirmAction === 'activate'
                             }"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none sm:w-auto sm:text-sm">
+                            class="cursor-pointer w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none sm:w-auto sm:text-sm">
                         {{ getActionLabel() }}
                     </button>
                     <button type="button" (click)="closeConfirmModal()"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
+                            class="cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
                         Cancel
                     </button>
                 </div>

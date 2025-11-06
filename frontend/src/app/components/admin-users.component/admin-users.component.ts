@@ -162,6 +162,59 @@ export class AdminUsersComponent implements OnInit {
         });
     }
 
+    exportUsersToCSV(): void {
+        const csvContent = this.generateUsersCSV();
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `pawportal-users-${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+        
+        this.successMessage = 'Users exported successfully!';
+        setTimeout(() => this.successMessage = '', 3000);
+    }
+
+    generateUsersCSV(): string {
+        const headers = [
+            'User ID',
+            'Email',
+            'First Name',
+            'Last Name',
+            'Mobile Number',
+            'Gender',
+            'Country',
+            'Language',
+            'Role',
+            'Status',
+            'Application Count',
+            'Created Date'
+        ];
+
+        const rows = this.filteredUsers.map(user => [
+            user.userId,
+            user.email,
+            user.firstName,
+            user.lastName,
+            user.mobileNumber || 'N/A',
+            user.gender || 'N/A',
+            user.country || 'N/A',
+            user.language || 'N/A',
+            user.role,
+            user.suspended ? 'Suspended' : 'Active',
+            user.applicationCount,
+            this.formatDate(user.createdAt)
+        ]);
+
+        const csvRows = [
+            headers.join(','),
+            ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+        ];
+
+        return csvRows.join('\n');
+    }
+
     formatDate(date: string): string {
         return new Date(date).toLocaleDateString('en-US', {
             year: 'numeric',

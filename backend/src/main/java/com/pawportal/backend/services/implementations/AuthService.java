@@ -40,7 +40,6 @@ public class AuthService implements IAuthService, UserDetailsService  {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final EmailService emailService;
     private final ForgotService forgotService;
     private final PasswordTokenRepository passwordTokenRepository;
 
@@ -131,29 +130,6 @@ public class AuthService implements IAuthService, UserDetailsService  {
         return new ResetResponse("Password has been reset successfully.");
     }
 
-    //Requests reset password (from the settings page)
-    @Override
-    public ResetResponse requestReset(String email) {
-        Optional<UserModel> optionalUser = userRepository.findByEmail(email);
-
-        if (optionalUser.isPresent()) {
-            UserModel user = optionalUser.get();
-            String token = UUID.randomUUID().toString();
-            LocalDateTime expiry = LocalDateTime.now().plusHours(1);
-
-            PasswordResetToken resetToken = new PasswordResetToken();
-            resetToken.setToken(token);
-            resetToken.setUser(user);
-            resetToken.setExpiry(expiry);
-            passwordTokenRepository.save(resetToken);
-
-            emailService.sendResetPasswordEmail(email, token);
-
-            return new ResetResponse("If your email exists, a reset link has been sent.");
-        }
-
-        return null;
-    }
 
     //Requests forgot password (from the login page)
     @Override

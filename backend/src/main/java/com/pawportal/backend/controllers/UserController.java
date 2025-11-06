@@ -119,17 +119,6 @@ public class UserController {
         return null;
     }
 
-    @PostMapping("/request-reset")
-    public ResponseEntity<?> requestReset(@RequestBody ResetRequest body, HttpServletRequest request) {
-        try {
-            String email = body.getEmail();
-            ResetResponse msg = authService.requestReset(email);
-            return ResponseEntity.ok(msg);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Password reset was unsuccessful");
-        }
-    }
-
     @PostMapping("/request-forgot")
     public ResponseEntity<?> requestForgot(@RequestBody ForgotRequest body, HttpServletRequest request) {
         try {

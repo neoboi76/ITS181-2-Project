@@ -17,7 +17,7 @@
 
     <div class="flex w-full lg:w-1/2 justify-center items-center bg-white mt-20 lg:mt-0">
 
-        <div class="w-full max-w-lg px-8">
+        <div class="w-full max-w-lg px-8 mt-15">
 
             <h1 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
                 Sign in to your account
@@ -63,7 +63,7 @@
                     <button
                         type="button"
                         (click)="togglePassword()"
-                        class="absolute right-3 top-1/2 -translate-y-1/2 mt-3 text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                        class="absolute right-3 top-1/2  -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors duration-200"
                         >
                         <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
                     </button>
@@ -116,7 +116,7 @@
 </div>
 
 @if (showForgotPasswordModal) {
-  <div class="fixed inset-0 z-[9999] overflow-y-auto">
+  <div class="fixed inset-0 z-50 overflow-y-auto">
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" (click)="closeForgotPasswordModal()"></div>
     <div class="flex min-h-full items-center justify-center p-4">
       <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-100 opacity-100"

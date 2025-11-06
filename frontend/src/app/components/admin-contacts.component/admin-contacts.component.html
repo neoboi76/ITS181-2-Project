@@ -74,7 +74,7 @@
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm">
                     <button (click)="viewDetails(contact)"
-                            class="text-[#1E88E5] hover:text-[#1976D2] font-medium">
+                            class="cursor-pointer text-[#1E88E5] hover:text-[#1976D2] font-medium">
                       <i class="fas fa-eye"></i> View Details
                     </button>
                   </td>
@@ -95,70 +95,69 @@
 </div>
 
 @if (showDetailModal && selectedContact) {
-  <div class="fixed inset-0 z-50 overflow-y-auto" (click)="closeDetailModal()">
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75"></div>
-      
-      <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full max-h-[90vh] overflow-y-auto z-40"
-           (click)="$event.stopPropagation()">
-        
-        <div class="bg-gradient-to-r from-[#1E88E5] to-[#1976D2] px-6 py-4 z-50">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xl font-bold text-white">Contact Inquiry Details</h3>
-            <button (click)="closeDetailModal()" class="text-white hover:text-gray-200">
-              <i class="fas fa-times text-2xl"></i>
-            </button>
-          </div>
-        </div>
+  <div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn" (click)="closeDetailModal()">
+  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 relative">
+    <div class="fixed inset-0 bg-opacity-75 animate-fadeIn z-50"></div>
 
-        <div class="bg-white px-6 py-6 space-y-6">
-          
-          <div>
-            <h4 class="text-lg font-bold text-[#1A1A1A] mb-3 border-b-2 border-[#1E88E5] pb-2">Contact Information</h4>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <p class="text-sm text-gray-600">Full Name</p>
-                <p class="font-semibold">{{ selectedContact.name }}</p>
-              </div>
-              <div>
-                <p class="text-sm text-gray-600">Email</p>
-                <p class="font-semibold">{{ selectedContact.email }}</p>
-              </div>
-              <div>
-                <p class="text-sm text-gray-600">Phone</p>
-                <p class="font-semibold">{{ selectedContact.phone }}</p>
-              </div>
-              <div>
-                <p class="text-sm text-gray-600">Submitted Date</p>
-                <p class="font-semibold">{{ formatDate(selectedContact.submittedAt) }}</p>
-              </div>
+    <div class="relative inline-block align-bottom bg-white break-words whitespace-normal rounded-lg text-left text-wrap overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full max-h-[90vh] overflow-y-auto z-50"
+         (click)="$event.stopPropagation()">
+      
+      <div class="bg-gradient-to-r from-[#1E88E5] to-[#1976D2] px-6 py-4 z-50">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-white">Contact Inquiry Details</h3>
+          <button (click)="closeDetailModal()" class="text-white hover:text-gray-200">
+            <i class="cursor-pointer fas fa-times text-2xl"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white px-6 py-6 space-y-6">
+        <div>
+          <h4 class="text-lg font-bold text-[#1A1A1A] mb-3 border-b-2 border-[#1E88E5] pb-2">Contact Information</h4>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm text-gray-600">Full Name</p>
+              <p class="font-semibold">{{ selectedContact.name }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-600">Email</p>
+              <p class="font-semibold">{{ selectedContact.email }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-600">Phone</p>
+              <p class="font-semibold">{{ selectedContact.phone }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-600">Submitted Date</p>
+              <p class="font-semibold">{{ formatDate(selectedContact.submittedAt) }}</p>
             </div>
           </div>
-
-          <div>
-            <h4 class="text-lg font-bold text-[#1A1A1A] mb-3 border-b-2 border-[#1E88E5] pb-2">Subject</h4>
-            <p class="font-semibold text-gray-900">{{ selectedContact.subject }}</p>
-          </div>
-
-          <div>
-            <h4 class="text-lg font-bold text-[#1A1A1A] mb-3 border-b-2 border-[#1E88E5] pb-2">Message</h4>
-            <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ selectedContact.message }}</p>
-          </div>
         </div>
 
-        <div class="bg-gray-50 px-6 py-4">
-          <div class="flex justify-end space-x-3">
-            <a [href]="'mailto:' + selectedContact.email"
-               class="px-4 py-2 bg-[#1E88E5] text-white rounded-lg hover:bg-[#1976D2] font-semibold">
-              <i class="fas fa-envelope mr-2"></i>Reply via Email
-            </a>
-            <button (click)="closeDetailModal()"
-                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-semibold">
-              Close
-            </button>
-          </div>
+        <div>
+          <h4 class="text-lg font-bold text-[#1A1A1A] mb-3 border-b-2 border-[#1E88E5] pb-2">Subject</h4>
+          <p class="font-semibold text-gray-900">{{ selectedContact.subject }}</p>
+        </div>
+
+        <div>
+          <h4 class="text-lg font-bold text-[#1A1A1A] mb-3 border-b-2 border-[#1E88E5] pb-2">Message</h4>
+          <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ selectedContact.message }}</p>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 px-6 py-4">
+        <div class="flex justify-end space-x-3">
+          <a [href]="'mailto:' + selectedContact.email"
+             class="cursor-pointer px-4 py-2 bg-[#1E88E5] text-white rounded-lg hover:bg-[#1976D2] font-semibold">
+            <i class="fas fa-envelope mr-2"></i>Reply via Email
+          </a>
+          <button (click)="closeDetailModal()"
+                  class="cursor-pointer px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-semibold">
+            Close
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
 }

@@ -9,7 +9,7 @@
           <p class="text-gray-600 mt-1">Add, edit, or remove dogs from the system</p>
         </div>
         <button (click)="openAddModal()"
-                class="bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2] transition-colors">
+                class="cursor-pointer bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2] transition-colors">
           <i class="fas fa-plus mr-2"></i>Add New Dog
         </button>
       </div>
@@ -17,15 +17,14 @@
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    
     <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div class="md:col-span-2">
           <input type="text" 
-                 [(ngModel)]="searchTerm"
-                 (ngModelChange)="applyFilters()"
-                 placeholder="Search by name or breed..."
-                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none">
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="applyFilters()"
+                placeholder="Search by name or breed..."
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none">
         </div>
         <div>
           <select [(ngModel)]="filterStatus"
@@ -37,6 +36,17 @@
             <option value="ADOPTED">Adopted</option>
           </select>
         </div>
+      </div>
+      
+      <div class="flex gap-4">
+        <button (click)="exportDogsToCSV()"
+                class="cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200">
+          <i class="fas fa-file-csv mr-2"></i>Export to CSV
+        </button>
+        <button (click)="clearFilters()"
+                class="cursor-pointer px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">
+          Clear Filters
+        </button>
       </div>
     </div>
 
@@ -102,11 +112,11 @@
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button (click)="openEditModal(dog)"
-                            class="text-[#1E88E5] hover:text-[#1976D2] mr-4">
+                            class="cursor-pointer text-[#1E88E5] hover:text-[#1665b5] mr-4">
                       <i class="fas fa-edit"></i> Edit
                     </button>
                     <button (click)="confirmDelete(dog)"
-                            class="text-red-600 hover:text-red-900">
+                            class="cursor-pointer text-red-600 hover:text-red-900">
                       <i class="fas fa-trash"></i> Delete
                     </button>
                   </td>
@@ -131,11 +141,11 @@
 </div>
 
 @if (showModal) {
-  <div class="fixed inset-0 z-50 overflow-y-auto">
+  <div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-40" (click)="closeModal()"></div>
+      <div class="fixed inset-0 bg-opacity-75 z-40 transition-opacity duration-300 ease-out animate-fadeIn" (click)="closeModal()"></div>
       
-      <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full z-50"
+      <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full z-50 animate-scaleIn"
            (click)="$event.stopPropagation()">
         
         <form [formGroup]="dogForm" (ngSubmit)="submitForm()">
@@ -260,11 +270,11 @@
 }
 
 @if (showDeleteConfirm) {
-  <div class="fixed inset-0 z-50 overflow-y-auto">
+  <div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn">
     <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 z-40" (click)="cancelDelete()"></div>
+      <div class="fixed inset-0bg-opacity-75 z-40 transition-opacity duration-300 ease-out animate-fadeIn" (click)="cancelDelete()"></div>
       
-      <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-50"
+      <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-50 animate-scaleIn"
            (click)="$event.stopPropagation()">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
           <div class="sm:flex sm:items-start">
