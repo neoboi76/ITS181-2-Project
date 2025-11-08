@@ -14,5 +14,7 @@ public interface IUserService {
 
     UserResponse activateUser(Long id);
 
+    UserResponse promoteUser(Long id);
+
     void deleteUser(Long id);
 }

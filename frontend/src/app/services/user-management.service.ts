@@ -49,4 +49,12 @@ export class UserManagementService {
             { headers: this.getHeaders() }
         );
     }
+
+    promoteUser(userId: number): Observable<UserResponse> {
+        return this.http.put<UserResponse>(
+            `${this.apiUrl}/${userId}/promote`, 
+            null,
+            { headers: this.getHeaders() }
+        );
+    }
 }

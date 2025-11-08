@@ -1,220 +1,223 @@
 <title>User Management</title>
 
 <div class="min-h-screen bg-[#F9FAFB]">
-    <div class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold text-[#1A1A1A]">User Management</h1>
-                    <p class="text-gray-600 mt-1">Manage user accounts and permissions</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm text-gray-600">Total Users</p>
-                    <p class="text-3xl font-bold text-[#1E88E5]">{{ users.length }}</p>
-                </div>
-            </div>
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-[#1A1A1A]">User Management</h1>
+          <p class="text-gray-600 mt-1">Manage user accounts and permissions</p>
         </div>
+        <div class="text-right">
+          <p class="text-sm text-gray-600">Total Users</p>
+          <p class="text-3xl font-bold text-[#1E88E5]">{{ users.length }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <div class="md:col-span-2">
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="applyFilters()"
+            placeholder="Search by name or email..."
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none"
+          />
+        </div>
+        <div>
+          <select
+            [(ngModel)]="filterRole"
+            (ngModelChange)="applyFilters()"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none"
+          >
+            <option value="">All Roles</option>
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+        <div>
+          <select
+            [(ngModel)]="filterStatus"
+            (ngModelChange)="applyFilters()"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none"
+          >
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="suspended">Suspended</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <button
+          (click)="exportUsersToCSV()"
+          class="cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200"
+        >
+          <i class="fas fa-file-csv mr-2"></i>Export to CSV
+        </button>
+        <button
+          (click)="clearFilters()"
+          class="cursor-pointer px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200"
+        >
+          Clear Filters
+        </button>
+      </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                <div class="md:col-span-2">
-                    <input type="text" 
-                           [(ngModel)]="searchTerm"
-                           (ngModelChange)="applyFilters()"
-                           placeholder="Search by name or email..."
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none">
-                </div>
-                <div>
-                    <select [(ngModel)]="filterRole"
-                            (ngModelChange)="applyFilters()"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none">
-                        <option value="">All Roles</option>
-                        <option value="USER">User</option>
-                        <option value="ADMIN">Admin</option>
-                    </select>
-                </div>
-                <div>
-                    <select [(ngModel)]="filterStatus"
-                            (ngModelChange)="applyFilters()"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E88E5] focus:outline-none">
-                        <option value="">All Status</option>
-                        <option value="active">Active</option>
-                        <option value="suspended">Suspended</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="flex gap-4">
-                <button (click)="exportUsersToCSV()"
-                        class="cursor-pointer px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200">
-                    <i class="fas fa-file-csv mr-2"></i>Export to CSV
-                </button>
-                <button (click)="clearFilters()"
-                        class="cursor-pointer px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">
-                    Clear Filters
-                </button>
-            </div>
-        </div>
-
-        @if (successMessage) {
-            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                <i class="fas fa-check-circle mr-2"></i>{{ successMessage }}
-            </div>
-        }
-
-        @if (errorMessage) {
-            <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                <i class="fas fa-exclamation-circle mr-2"></i>{{ errorMessage }}
-            </div>
-        }
-
-        @if (isLoading) {
-            <div class="flex justify-center items-center py-20">
-                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#1E88E5]"></div>
-            </div>
-        } @else if (filteredUsers.length > 0) {
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applications</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @for (user of filteredUsers; track user.userId) {
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 bg-[#1E88E5] rounded-full flex items-center justify-center">
-                                                <span class="text-white font-bold">{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">{{ user.firstName }} {{ user.lastName }}</div>
-                                                <div class="text-sm text-gray-500">ID: {{ user.userId }}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">{{ user.email }}</div>
-                                        <div class="text-sm text-gray-500">{{ user.mobileNumber || 'N/A' }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span [ngClass]="{
-                                            'bg-purple-100 text-purple-800': user.role === 'ADMIN',
-                                            'bg-blue-100 text-blue-800': user.role === 'USER'
-                                        }" class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
-                                            {{ user.role }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span [ngClass]="{
-                                            'bg-green-100 text-green-800': !user.suspended,
-                                            'bg-red-100 text-red-800': user.suspended
-                                        }" class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
-                                            {{ user.suspended ? 'Suspended' : 'Active' }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ user.applicationCount }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ formatDate(user.createdAt) }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        @if (user.role !== 'ADMIN') {
-                                            @if (!user.suspended) {
-                                                <button (click)="openConfirmModal('suspend', user)"
-                                                        class="cursor-pointer text-orange-600 hover:text-orange-900 mr-3">
-                                                    <i class="cursor-pointer fas fa-ban"></i> Suspend
-                                                </button>
-                                            } @else {
-                                                <button (click)="openConfirmModal('activate', user)"
-                                                        class="text-green-600 hover:text-green-900 mr-3">
-                                                    <i class="fas fa-check-circle"></i> Activate
-                                                </button>
-                                            }
-                                            <button (click)="openConfirmModal('delete', user)"
-                                                    class="cursor-pointer text-red-600 hover:text-red-900">
-                                                <i class="cursor-pointer fas fa-trash"></i> Delete
-                                            </button>
-                                        } @else {
-                                            <span class="text-gray-400">Admin User</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        } @else {
-            <div class="bg-white rounded-xl shadow-lg p-12 text-center">
-                <i class="fas fa-users text-6xl text-gray-400 mb-4"></i>
-                <h3 class="text-xl font-bold text-gray-700 mb-2">No Users Found</h3>
-                <p class="text-gray-600 mb-6">Try adjusting your filters</p>
-                <button (click)="clearFilters()"
-                        class="cursor-pointer bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2]">
-                    Clear Filters
-                </button>
-            </div>
-        }
+    @if (successMessage) {
+    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+      <i class="fas fa-check-circle mr-2"></i>{{ successMessage }}
     </div>
+    } @if (errorMessage) {
+    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+      <i class="fas fa-exclamation-circle mr-2"></i>{{ errorMessage }}
+    </div>
+    } @if (isLoading) {
+    <div class="flex justify-center items-center py-20">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#1E88E5]"></div>
+    </div>
+    } @else if (filteredUsers.length > 0) {
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applications</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            @for (user of filteredUsers; track user.userId) {
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 bg-[#1E88E5] rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">{{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}</span>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">{{ user.firstName }} {{ user.lastName }}</div>
+                    <div class="text-sm text-gray-500">ID: x{{ user.userId }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="text-sm text-gray-900">{{ user.email }}</div>
+                <div class="text-sm text-gray-500">{{ user.mobileNumber || 'N/A' }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span [ngClass]="{ 'bg-purple-100 text-purple-800': user.role === 'ADMIN', 'bg-blue-100 text-blue-800': user.role === 'USER' }" class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+                  {{ user.role }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span [ngClass]="{ 'bg-green-100 text-green-800': !user.suspended, 'bg-red-100 text-red-800': user.suspended }" class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+                  {{ user.suspended ? 'Suspended' : 'Active' }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ user.applicationCount }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(user.createdAt) }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                @if (user.role !== 'ADMIN') {
+                <div>
+                  <button
+                    type="button"
+                    class="inline-flex justify-center items-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none user-actions-button"
+                    (click)="toggleDropdown(user, $event)"
+                  >
+                    Actions
+                    <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+
+                  @if (user.showDropdown) {
+                    <div
+                      class="user-actions-dropdown z-50 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                      (click)="$event.stopPropagation()"
+                      [ngStyle]="{ position: 'fixed', top: user.dropdownPosition?.top + 'px', left: user.dropdownPosition?.left + 'px', minWidth: '176px' }"
+                    >
+                      <div class="py-1">
+                        @if (!user.suspended) {
+                        <button (click)="onActionSelect('suspend', user)" class="block px-4 py-2 text-sm text-orange-600 hover:bg-gray-100 w-full text-left">
+                          <i class="fas fa-ban mr-2"></i>Suspend
+                        </button>
+                        } @else {
+                        <button (click)="onActionSelect('activate', user)" class="block px-4 py-2 text-sm text-green-600 hover:bg-gray-100 w-full text-left">
+                          <i class="fas fa-check-circle mr-2"></i>Activate
+                        </button>
+                        }
+
+                        <button (click)="onActionSelect('promote', user)" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 w-full text-left">
+                          <i class="fas fa-user-shield mr-2"></i>Promote to Admin
+                        </button>
+
+                        <button (click)="onActionSelect('delete', user)" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left">
+                          <i class="fas fa-trash mr-2"></i>Delete
+                        </button>
+                      </div>
+                    </div>
+                  }
+                </div>
+                } @else {
+                <span class="text-gray-400">Admin User</span>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    } @else {
+    <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+      <i class="fas fa-users text-6xl text-gray-400 mb-4"></i>
+      <h3 class="text-xl font-bold text-gray-700 mb-2">No Users Found</h3>
+      <p class="text-gray-600 mb-6">Try adjusting your filters</p>
+      <button (click)="clearFilters()" class="cursor-pointer bg-[#1E88E5] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1976D2]">
+        Clear Filters
+      </button>
+    </div>
+    }
+  </div>
 </div>
 
 @if (showConfirmModal && selectedUser) {
-    <div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn">
-        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
-            <div class="fixed inset- bg-opacity-75 z-40 transition-opacity duration-300 ease-out animate-fadeIn" (click)="closeConfirmModal()"></div>
-            
-            <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-50 animate-scaleIn"
-                 (click)="$event.stopPropagation()">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0"
-                             [ngClass]="{
-                                'bg-red-100': confirmAction === 'delete',
-                                'bg-orange-100': confirmAction === 'suspend',
-                                'bg-green-100': confirmAction === 'activate'
-                             }">
-                            <i class="text-xl" [ngClass]="{
-                                'fas fa-exclamation-triangle text-red-900 ': confirmAction === 'delete',
-                                'fas fa-ban text-orange-600 hover:bg-orange-800': confirmAction === 'suspend',
-                                'fas fa-check-circle text-green-600': confirmAction === 'activate'
-                            }"></i>
-                        </div>
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900">{{ getActionLabel() }} User</h3>
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">{{ getActionMessage() }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-3">
-                    <button type="button" (click)="confirmActionExecute()"
-                            [ngClass]="{
-                                'bg-red-600 hover:bg-red-700': confirmAction === 'delete',
-                                'bg-orange-600 hover:bg-orange-700': confirmAction === 'suspend',
-                                'bg-green-600 hover:bg-green-700': confirmAction === 'activate'
-                            }"
-                            class="cursor-pointer w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none sm:w-auto sm:text-sm">
-                        {{ getActionLabel() }}
-                    </button>
-                    <button type="button" (click)="closeConfirmModal()"
-                            class="cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
-                        Cancel
-                    </button>
-                </div>
+<div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn">
+  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
+    <div class="fixed inset- bg-opacity-75 z-40 transition-opacity duration-300 ease-out animate-fadeIn" (click)="closeConfirmModal()"></div>
+
+    <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-50 animate-scaleIn" (click)="$event.stopPropagation()">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+        <div class="sm:flex sm:items-start">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0" [ngClass]="{ 'bg-red-100': confirmAction === 'delete', 'bg-orange-100': confirmAction === 'suspend', 'bg-green-100': confirmAction === 'activate', 'bg-blue-100': confirmAction === 'promote' }">
+            <i class="text-xl" [ngClass]="{ 'fas fa-exclamation-triangle text-red-900 ': confirmAction === 'delete', 'fas fa-ban text-orange-600': confirmAction === 'suspend', 'fas fa-check-circle text-green-600': confirmAction === 'activate', 'fas fa-user-shield text-blue-600': confirmAction === 'promote' }"></i>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">{{ getActionLabel() }} User</h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500">{{ getActionMessage() }}</p>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-3">
+        <button type="button" (click)="confirmActionExecute()" [ngClass]="{ 'bg-red-600 hover:bg-red-700': confirmAction === 'delete', 'bg-orange-600 hover:bg-orange-700': confirmAction === 'suspend', 'bg-green-600 hover:bg-green-700': confirmAction === 'activate', 'bg-blue-600 hover:bg-blue-700': confirmAction === 'promote' }" class="cursor-pointer w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none sm:w-auto sm:text-sm">
+          {{ getActionLabel() }}
+        </button>
+        <button type="button" (click)="closeConfirmModal()" class="cursor-pointer mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
+          Cancel
+        </button>
+      </div>
     </div>
+  </div>
+</div>
 }

@@ -1,4 +1,5 @@
 export interface User {
+    showDropdown: any;
     userId: number;
     email: string;
     firstName: string;

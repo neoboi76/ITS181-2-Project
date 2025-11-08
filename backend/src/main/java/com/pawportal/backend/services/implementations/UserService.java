@@ -1,6 +1,7 @@
 package com.pawportal.backend.services.implementations;
 
 import com.pawportal.backend.models.UserModel;
+import com.pawportal.backend.models.enums.Role;
 import com.pawportal.backend.models.responses.UserResponse;
 import com.pawportal.backend.repositories.UserRepository;
 import com.pawportal.backend.services.interfaces.IUserService;
@@ -60,6 +61,24 @@ public class UserService implements IUserService {
             throw new RuntimeException("Cannot delete admin users");
         }
         userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public UserResponse promoteUser(Long id) {
+        UserModel user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+        if (user.getRole().name().equals("ADMIN")) {
+            throw new RuntimeException("Cannot promote admin users");
+        }
+
+        user.setRole(Role.ADMIN);
+
+        UserModel promotedUser = userRepository.save(user);
+
+        return convertToUserResponse(promotedUser);
+
     }
 
     private UserResponse convertToUserResponse(UserModel user) {

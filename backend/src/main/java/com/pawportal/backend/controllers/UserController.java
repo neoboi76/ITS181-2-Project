@@ -133,17 +133,24 @@ public class UserController {
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         try {
+
             String token = getTokenFromRequest(request);
-            String email = jwtTokenProvider.getEmailFromToken(token);
-            Long userId = authService.getUserIdByEmail(email);
 
-            logoutService.blacklistToken(token);
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                String email = jwtTokenProvider.getEmailFromToken(token);
+                Long userId = authService.getUserIdByEmail(email);
 
-            auditLogService.logAction(userId, AuditAction.USER_LOGOUT,
-                    getClientIp(request), request.getHeader("User-Agent"),
-                    "User logged out");
+                logoutService.blacklistToken(token);
 
-            return ResponseEntity.ok(new LogoutResponse("Logout successful. Token has been invalidated."));
+                auditLogService.logAction(userId, AuditAction.USER_LOGOUT,
+                        getClientIp(request), request.getHeader("User-Agent"),
+                        "User logged out");
+
+                return ResponseEntity.ok(new LogoutResponse("Logout successful. Token has been invalidated."));
+
+            }
+
+            return ResponseEntity.badRequest().body("Logout failed");
 
         } catch(Exception e) {
             return ResponseEntity.badRequest().body("Logout failed " + e.getMessage());
@@ -153,7 +160,10 @@ public class UserController {
     @PutMapping("/update-user")
     public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody SettingsRequest usrReq) {
         try {
-            if (this.jwtTokenProvider.validateToken(getTokenFromRequest(request))) {
+
+            String token = getTokenFromRequest(request);
+
+            if (token != null && jwtTokenProvider.validateToken(token)) {
                 SettingsResponse response = authService.updateUser(usrReq);
 
                 auditLogService.logAction(usrReq.getId(), AuditAction.USER_PROFILE_UPDATED,
@@ -173,7 +183,10 @@ public class UserController {
     @GetMapping("/get-user/{id}")
     public ResponseEntity<?> getUser(HttpServletRequest request, @PathVariable long id) {
         try {
-            if (this.jwtTokenProvider.validateToken(getTokenFromRequest(request))) {
+
+            String token = getTokenFromRequest(request);
+
+            if (token != null && jwtTokenProvider.validateToken(token)) {
                 SettingsRequest response = authService.getUser(id);
 
                 auditLogService.logAction(id, AuditAction.USER_PROFILE_VIEWED,
@@ -199,18 +212,51 @@ public class UserController {
     public ResponseEntity<?> suspendUser(@PathVariable Long id, HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
-            String adminEmail = jwtTokenProvider.getEmailFromToken(token);
-            Long adminId = authService.getUserIdByEmail(adminEmail);
 
-            UserResponse response = userService.suspendUser(id);
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                String adminEmail = jwtTokenProvider.getEmailFromToken(token);
+                Long adminId = authService.getUserIdByEmail(adminEmail);
 
-            auditLogService.logAction(adminId, AuditAction.USER_SUSPENDED,
-                    getClientIp(request), request.getHeader("User-Agent"),
-                    "Admin suspended user ID: " + id);
+                UserResponse response = userService.suspendUser(id);
 
-            return ResponseEntity.ok(response);
+                auditLogService.logAction(adminId, AuditAction.USER_SUSPENDED,
+                        getClientIp(request), request.getHeader("User-Agent"),
+                        "Admin suspended user ID: " + id);
+
+                return ResponseEntity.ok(response);
+            }
+
+            return ResponseEntity.badRequest().body("Failed to suspend user: ");
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to suspend user: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/admin/users/{id}/promote")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> promoteUser(@PathVariable Long id, HttpServletRequest request) {
+        try {
+            String token = getTokenFromRequest(request);
+
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+
+                String adminEmail = jwtTokenProvider.getEmailFromToken(token);
+                Long adminId = authService.getUserIdByEmail(adminEmail);
+
+                UserResponse response = userService.promoteUser(id);
+
+                auditLogService.logAction(adminId, AuditAction.USER_PROMOTED,
+                        getClientIp(request), request.getHeader("User-Agent"),
+                        "Admin Promoted to Admin user ID: " + id);
+
+                return ResponseEntity.ok(response);
+            }
+
+            return ResponseEntity.badRequest().body("Failed to Promote user");
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to Promote user: " + e.getMessage());
         }
     }
 
@@ -219,16 +265,22 @@ public class UserController {
     public ResponseEntity<?> activateUser(@PathVariable Long id, HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
-            String adminEmail = jwtTokenProvider.getEmailFromToken(token);
-            Long adminId = authService.getUserIdByEmail(adminEmail);
 
-            UserResponse response = userService.activateUser(id);
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                String adminEmail = jwtTokenProvider.getEmailFromToken(token);
+                Long adminId = authService.getUserIdByEmail(adminEmail);
 
-            auditLogService.logAction(adminId, AuditAction.USER_ACTIVATED,
-                    getClientIp(request), request.getHeader("User-Agent"),
-                    "Admin activated user ID: " + id);
+                UserResponse response = userService.activateUser(id);
 
-            return ResponseEntity.ok(response);
+                auditLogService.logAction(adminId, AuditAction.USER_ACTIVATED,
+                        getClientIp(request), request.getHeader("User-Agent"),
+                        "Admin activated user ID: " + id);
+
+                return ResponseEntity.ok(response);
+            }
+
+            return ResponseEntity.badRequest().body("Failed to activate user");
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to activate user: " + e.getMessage());
         }
@@ -239,16 +291,22 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id, HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
-            String adminEmail = jwtTokenProvider.getEmailFromToken(token);
-            Long adminId = authService.getUserIdByEmail(adminEmail);
 
-            userService.deleteUser(id);
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                String adminEmail = jwtTokenProvider.getEmailFromToken(token);
+                Long adminId = authService.getUserIdByEmail(adminEmail);
 
-            auditLogService.logAction(adminId, AuditAction.USER_DELETED,
-                    getClientIp(request), request.getHeader("User-Agent"),
-                    "Admin deleted user ID: " + id);
+                userService.deleteUser(id);
 
-            return ResponseEntity.ok().body("User deleted successfully");
+                auditLogService.logAction(adminId, AuditAction.USER_DELETED,
+                        getClientIp(request), request.getHeader("User-Agent"),
+                        "Admin deleted user ID: " + id);
+
+                return ResponseEntity.ok().body("User deleted successfully");
+            }
+
+            return ResponseEntity.badRequest().body("Failed to delete user");
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to delete user: " + e.getMessage());
         }
@@ -259,14 +317,20 @@ public class UserController {
     public ResponseEntity<?> getAuditLogs(HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
-            String email = jwtTokenProvider.getEmailFromToken(token);
-            Long userId = authService.getUserIdByEmail(email);
 
-            auditLogService.logAction(userId, AuditAction.SEARCH_PERFORMED,
-                    getClientIp(request), request.getHeader("User-Agent"),
-                    "Admin viewed audit logs");
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                String email = jwtTokenProvider.getEmailFromToken(token);
+                Long userId = authService.getUserIdByEmail(email);
 
-            return ResponseEntity.ok(auditLogService.getAllAuditLogs());
+                auditLogService.logAction(userId, AuditAction.SEARCH_PERFORMED,
+                        getClientIp(request), request.getHeader("User-Agent"),
+                        "Admin viewed audit logs");
+
+                return ResponseEntity.ok(auditLogService.getAllAuditLogs());
+            }
+
+            return ResponseEntity.badRequest().body("Failed to retrieve audit logs");
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to retrieve audit logs: " + e.getMessage());
         }
