@@ -1,14 +1,18 @@
 package com.pawportal.backend.services.interfaces;
 
 import com.pawportal.backend.models.ApplicationFormModel;
+import com.pawportal.backend.models.requests.ApplicationFormRequest;
+import com.pawportal.backend.models.responses.ApplicationFormResponse;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface IApplicationFormService {
-    ApplicationFormModel createApplication(ApplicationFormModel application);
-    List<ApplicationFormModel> getAllApplications();
-    Optional<ApplicationFormModel> getApplicationById(Long id);
-    List<ApplicationFormModel> getApplicationsByUserId(Long userId);
-    ApplicationFormModel updateApplicationStatus(Long id, String status);
+    ApplicationFormResponse createApplication(ApplicationFormRequest application);
+    List<ApplicationFormResponse> getAllApplications();
+    Optional<ApplicationFormResponse> getApplicationById(Long id);
+    List<ApplicationFormResponse> getApplicationsByUserId(Long userId);
+    ApplicationFormResponse updateApplicationStatus(Long id, String statusStr);
+    ApplicationFormResponse convertToDto(ApplicationFormModel model);
 }
 

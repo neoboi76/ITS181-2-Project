@@ -183,27 +183,44 @@ export class AdminUsersComponent implements OnInit {
         this.errorMessage = err.error || 'Failed to delete user';
         this.closeConfirmModal();
         setTimeout(() => (this.errorMessage = ''), 3000);
-      }
+      }      
     });
   }
 
   promoteUser(userId: number): void {
-    this.userService.promoteUser ? this.userService.promoteUser(userId).subscribe({
-      next: (updatedUser) => {
-        const index = this.users.findIndex(u => u.userId === userId);
-        if (index !== -1) this.users[index] = { ...updatedUser, showDropdown: false };
+    this.userService.promoteUser(userId).subscribe({
+    next: (promotedUser) => {
+      const index = this.users.findIndex(u => u.userId === userId);
+      if (index !== -1) this.users[index] = { ...promotedUser, showDropdown: false };
         this.applyFilters();
-        this.successMessage = 'User promoted to admin successfully';
+        this.successMessage = 'User promoted successfully';
         this.closeConfirmModal();
         setTimeout(() => (this.successMessage = ''), 3000);
-      },
-      error: (err) => {
-        console.error('Error promoting user:', err);
-        this.errorMessage = err.error || 'Failed to promote user';
-        this.closeConfirmModal();
-        setTimeout(() => (this.errorMessage = ''), 3000);
+
+      if (promotedUser.suspended) {
+        this.userService.activateUser(userId).subscribe({
+        next: (activatedUser) => {
+          if (index !== -1) this.users[index] = { ...activatedUser, showDropdown: false };
+          this.applyFilters();
+          this.successMessage = 'User promoted and activated successfully';
+          this.closeConfirmModal();
+          setTimeout(() => (this.successMessage = ''), 3000);
+        },
+        error: (err) => {
+          console.error('Error activating user:', err);
+          this.errorMessage = 'User promoted but activation failed';
+          setTimeout(() => (this.errorMessage = ''), 3000);
+        }
+      });
       }
-    }) : console.error('promoteUser method not found on service');
+    },
+    error: (err) => {
+      console.error('Error promoting user:', err);
+      this.errorMessage = 'Failed to promote user';
+      this.closeConfirmModal();
+      setTimeout(() => (this.errorMessage = ''), 3000);
+    }
+  });
   }
 
   exportUsersToCSV(): void {

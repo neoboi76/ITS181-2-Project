@@ -1,7 +1,8 @@
 package com.pawportal.backend.controllers;
 
-import com.pawportal.backend.models.ApplicationFormModel;
 import com.pawportal.backend.models.enums.AuditAction;
+import com.pawportal.backend.models.requests.ApplicationFormRequest;
+import com.pawportal.backend.models.responses.ApplicationFormResponse;
 import com.pawportal.backend.services.implementations.JwtTokenProvider;
 import com.pawportal.backend.services.interfaces.IApplicationFormService;
 import com.pawportal.backend.services.interfaces.IAuditLogService;
@@ -27,59 +28,59 @@ public class ApplicationFormController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
-    public ResponseEntity<ApplicationFormModel> createApplication(@RequestBody ApplicationFormModel application, HttpServletRequest request) {
+    public ResponseEntity<ApplicationFormResponse> createApplication(@RequestBody ApplicationFormRequest application, HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                String email = jwtTokenProvider.getEmailFromToken(token);
-                Long userId = authService.getUserIdByEmail(email);
+            String email = jwtTokenProvider.getEmailFromToken(token);
+            Long userId = authService.getUserIdByEmail(email);
 
-                ApplicationFormModel created = applicationFormService.createApplication(application);
+            ApplicationFormResponse created = applicationFormService.createApplication(application);
 
-                auditLogService.logAction(userId, AuditAction.APPLICATION_CREATED,
-                        getClientIp(request), request.getHeader("User-Agent"),
-                        "Created application ID: " + created.getApplicationId() + " for dog ID: " + created.getDog().getDogId());
+            auditLogService.logAction(userId, AuditAction.APPLICATION_CREATED,
+                    getClientIp(request), request.getHeader("User-Agent"),
+                    "Created application for dog (request dogId): " + application.getDogId()
+                            + " — new application submitted at: " + created.getSubmittedAt());
 
-                return ResponseEntity.status(HttpStatus.CREATED).body(created);
-            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+
         } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(applicationFormService.createApplication(application));
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ApplicationFormModel>> getAllApplications() {
+    public ResponseEntity<List<ApplicationFormResponse>> getAllApplications() {
         return ResponseEntity.ok(applicationFormService.getAllApplications());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApplicationFormModel> getApplicationById(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<ApplicationFormResponse> getApplicationById(@PathVariable Long id, HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                String email = jwtTokenProvider.getEmailFromToken(token);
-                Long userId = authService.getUserIdByEmail(email);
-                auditLogService.logAction(userId, AuditAction.APPLICATION_VIEWED,
-                        getClientIp(request), request.getHeader("User-Agent"),
-                        "Viewed application ID: " + id);
-            }
-        } catch (Exception e) {
-        }
+            String email = jwtTokenProvider.getEmailFromToken(token);
+            Long userId = authService.getUserIdByEmail(email);
+            auditLogService.logAction(userId, AuditAction.APPLICATION_VIEWED,
+                    getClientIp(request), request.getHeader("User-Agent"),
+                    "Viewed application ID: " + id);
 
-        return applicationFormService.getApplicationById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+            return applicationFormService.getApplicationById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ApplicationFormModel>> getApplicationsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<ApplicationFormResponse>> getApplicationsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(applicationFormService.getApplicationsByUserId(userId));
     }
 
     @PutMapping("/{id}/status")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApplicationFormModel> updateApplicationStatus(
+    public ResponseEntity<ApplicationFormResponse> updateApplicationStatus(
             @PathVariable Long id,
             @RequestParam String status,
             HttpServletRequest request) {
@@ -88,7 +89,7 @@ public class ApplicationFormController {
             String email = jwtTokenProvider.getEmailFromToken(token);
             Long userId = authService.getUserIdByEmail(email);
 
-            ApplicationFormModel updated = applicationFormService.updateApplicationStatus(id, status);
+            ApplicationFormResponse updated = applicationFormService.updateApplicationStatus(id, status);
 
             auditLogService.logAction(userId, AuditAction.APPLICATION_UPDATED,
                     getClientIp(request), request.getHeader("User-Agent"),

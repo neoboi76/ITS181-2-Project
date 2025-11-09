@@ -22,13 +22,12 @@ export class ContactComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
     this.contactForm = this.fb.group({
-        name: ['', [Validators.required, Validators.minLength(2)]],
-        email: ['', [Validators.required, Validators.email]],
-        phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10,11}$/)]],
-        subject: ['', [Validators.required]],
-        message: ['', [Validators.required, Validators.minLength(20)]]
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10,11}$/)]],
+      subject: ['', [Validators.required]],
+      message: ['', [Validators.required, Validators.minLength(20)]]
     });
   }
 

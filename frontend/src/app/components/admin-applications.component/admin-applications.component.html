@@ -128,7 +128,7 @@
 
   @if (showDetailModal && selectedApplication) {
     <div class="fixed inset-0 z-50 overflow-y-auto animate-fadeIn">
-      <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20">
+      <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20  bg-black/60 backdrop-blur-sm transition-opacity duration-300">
         <div class="ursor-pointer fixed inset-0 bg-white/30 rounded-lg bg-opacity-75 z-40 transition-opacity duration-300 ease-out animate-fadeIn" (click)="closeDetailModal()"></div>
 
         <div class="relative inline-block align-bottom bg-white break-words whitespace-normal rounded-lg text-left overflow-hidden shadow-xl transform sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full max-h-[90vh] overflow-y-auto z-50 animate-scaleIn" (click)="$event.stopPropagation()">

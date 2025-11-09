@@ -30,7 +30,7 @@ export class DogService {
 
   getDogById(id: number): Observable<Dog> {
     return this.http.get<Dog>(`${this.apiUrl}/${id}`,
-
+      { headers: this.getHeaders() }
     );
   }
 

@@ -20,7 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 
-/*
+/**
     Developed by Group 6:
         Kenji Mark Alan Arceo
         Carl Norbi Felonia
@@ -30,10 +30,11 @@ import java.util.List;
 
  */
 
-//An important class. Stores the config for Sprint security used by the Application.
-//Comprised of JWTAuthentication, JWTAuthenticationFilter, enabling of CORS,
-//DaoAuthenticationProvider, PasswordEncoder, and specifies which endpoints need
-//authentiation and those which don't
+/** An important class. Stores the config for Sprint security used by the Application.
+    Comprised of JWTAuthentication, JWTAuthenticationFilter, enabling of CORS,
+    DaoAuthenticationProvider, PasswordEncoder, and specifies which endpoints need
+    authentiation and those which don't
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
@@ -65,8 +66,7 @@ public class SecurityConfig {
                                 "/request-reset",
                                 "/request-forgot",
                                 "/dogs/**",
-                                "/contact",
-                                "/application/**").permitAll()
+                                "/contact").permitAll()
                         .anyRequest().authenticated() //Any other not specified above endpoints need authentication
                 )
                 .sessionManagement(session -> session

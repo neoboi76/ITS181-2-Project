@@ -28,20 +28,11 @@ export class ApplicationService {
       { headers: this.getHeaders() });
   }
 
-  getApplicationsByUserId(userId: number): Observable<ApplicationForm[]> {
-    return this.http.get<ApplicationForm[]>(`${this.apiUrl}/user/${userId}`, 
-      { headers: this.getHeaders() });
-  }
-
   getAllApplications(): Observable<ApplicationForm[]> {
     return this.http.get<ApplicationForm[]>(this.apiUrl, 
       { headers: this.getHeaders() });
   }
 
-  getApplicationById(id: number): Observable<ApplicationForm> {
-    return this.http.get<ApplicationForm>(`${this.apiUrl}/${id}`, 
-      { headers: this.getHeaders() });
-  }
 
   updateApplicationStatus(id: number, status: string): Observable<ApplicationForm> {
     const params = new HttpParams().set('status', status);

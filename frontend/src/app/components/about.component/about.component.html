@@ -130,11 +130,11 @@
             <button (click)="toggleFaq($index)"
                     class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200">
               <span class="font-semibold text-[#1A1A1A] text-lg pr-4">{{ faq.question }}</span>
-              <i class="fas transition-transform duration-300" 
+              <i class="fas transition-transform duration-700" 
                  [ngClass]="faq.isOpen ? 'fa-chevron-up text-[#1E88E5]' : 'fa-chevron-down text-gray-400'"></i>
             </button>
             
-            <div class="overflow-hidden transition-all duration-300"
+            <div class="overflow-hidden transition-all duration-700"
                  [class.max-h-0]="!faq.isOpen"
                  [class.max-h-96]="faq.isOpen">
               <div class="px-6 pb-4 text-gray-700 leading-relaxed border-t border-gray-200 pt-4">

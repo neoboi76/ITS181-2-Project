@@ -36,19 +36,20 @@ public class DogController {
     public ResponseEntity<DogModel> getDogById(@PathVariable Long id, HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
-            if (token != null && jwtTokenProvider.validateToken(token)) {
-                String email = jwtTokenProvider.getEmailFromToken(token);
-                Long userId = authService.getUserIdByEmail(email);
-                auditLogService.logAction(userId, AuditAction.DOG_VIEWED,
-                        getClientIp(request), request.getHeader("User-Agent"),
-                        "Viewed dog ID: " + id);
-            }
+            String email = jwtTokenProvider.getEmailFromToken(token);
+            Long userId = authService.getUserIdByEmail(email);
+            auditLogService.logAction(userId, AuditAction.DOG_VIEWED,
+                    getClientIp(request), request.getHeader("User-Agent"),
+                    "Viewed dog ID: " + id);
+
+            return dogService.getDogById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+
         } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
 
-        return dogService.getDogById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/status/{status}")

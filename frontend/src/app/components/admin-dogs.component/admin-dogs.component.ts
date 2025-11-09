@@ -25,6 +25,7 @@ export class AdminDogsComponent implements OnInit {
   errorMessage = '';
   showDeleteConfirm = false;
   dogToDelete: Dog | null = null;
+  isSubmitted = false;
 
   constructor(
     private dogService: DogService,
@@ -116,6 +117,7 @@ export class AdminDogsComponent implements OnInit {
   }
 
   submitForm(): void {
+     this.isSubmitted = true;
     if (this.dogForm.invalid) {
       Object.keys(this.dogForm.controls).forEach(key => {
         const control = this.dogForm.get(key);
@@ -137,7 +139,7 @@ export class AdminDogsComponent implements OnInit {
           }
           this.applyFilters();
           this.successMessage = 'Dog updated successfully!';
-          setTimeout(() => this.closeModal(), 1500);
+          setTimeout(() => this.closeModal(), 500);
         },
         error: (err) => {
           console.error('Error updating dog:', err);
@@ -150,7 +152,7 @@ export class AdminDogsComponent implements OnInit {
           this.dogs.unshift(newDog);
           this.applyFilters();
           this.successMessage = 'Dog added successfully!';
-          setTimeout(() => this.closeModal(), 1500);
+          setTimeout(() => this.closeModal(), 500);
         },
         error: (err) => {
           console.error('Error creating dog:', err);

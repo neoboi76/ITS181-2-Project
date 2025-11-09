@@ -25,11 +25,11 @@ export class ContactService {
 
   submitContactForm(contact: ContactForm): Observable<ContactForm> {
     return this.http.post<ContactForm>(this.apiUrl, contact, 
-        { headers: this.getHeaders() }
     );
   }
 
   getAllContactForms(): Observable<ContactForm[]> {
-    return this.http.get<ContactForm[]>(this.apiUrl, { headers: this.getHeaders() });
+    return this.http.get<ContactForm[]>(this.apiUrl, 
+      { headers: this.getHeaders() });
   }
 }

@@ -62,7 +62,7 @@ export class RegisterComponent {
       },
       error: err => {
         console.log(err);
-        this.errorMessage = 'Invalid sign up details.';
+        this.errorMessage = err.error;
       }
     });
 

@@ -38,8 +38,8 @@ export class DogDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.checkLoginStatus();
     this.initForm();
+    this.checkLoginStatus();
     this.loadDog();
   }
 
@@ -128,6 +128,8 @@ export class DogDetailComponent implements OnInit, OnDestroy {
       dogId: this.dog?.dogId,
       userId: this.userId
     };
+
+    console.log(this.dog?.dogId);
 
     this.applicationService.createApplication(formData).subscribe({
       next: (response) => {

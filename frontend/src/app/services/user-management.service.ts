@@ -24,7 +24,8 @@ export class UserManagementService {
     }
 
     getAllUsers(): Observable<UserResponse[]> {
-        return this.http.get<UserResponse[]>(this.apiUrl, { headers: this.getHeaders() });
+        return this.http.get<UserResponse[]>(this.apiUrl, 
+            { headers: this.getHeaders() });
     }
 
     suspendUser(userId: number): Observable<UserResponse> {

@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
       },
       error: err => {
         console.log(err);
-        this.errorMessage = 'Invalid username or password.';
+        this.errorMessage = err.error;
       }
     });
   }

@@ -32,6 +32,7 @@ public class ContactFormController {
             ContactFormModel created = contactFormService.createContactForm(contactForm);
 
             String token = getTokenFromRequest(request);
+
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 String email = jwtTokenProvider.getEmailFromToken(token);
                 Long userId = authService.getUserIdByEmail(email);
@@ -56,10 +57,12 @@ public class ContactFormController {
             auditLogService.logAction(userId, AuditAction.CONTACT_VIEWED,
                     getClientIp(request), request.getHeader("User-Agent"),
                     "Viewed all contact forms");
-        } catch (Exception e) {
-        }
 
-        return ResponseEntity.ok(contactFormService.getAllContactForms());
+            return ResponseEntity.ok(contactFormService.getAllContactForms());
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
