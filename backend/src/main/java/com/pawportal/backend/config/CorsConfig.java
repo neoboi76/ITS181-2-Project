@@ -7,6 +7,14 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
+ */
+
 @Configuration
 public class CorsConfig {
 

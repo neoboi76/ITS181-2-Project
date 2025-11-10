@@ -8,19 +8,20 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-/*
-    Developed by Group 6:
-        Kenji Mark Alan Arceo
-        Carl Norbi Felonia
-        Ryonan Owen Ferrer
-        Dino Alfred Timbol
-        Mike Emil Vocal
 
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
  */
 
-//Configuration class for EmailService and ForgotService
-//Specifies basic settings, such as email sender and app password,
-//email host, among other properties
+/**
+ * Configuration class for EmailService and ForgotService
+ * Specifies basic settings, such as email sender and app password,
+ * email host, among other properties
+*/
 
 @Configuration
 public class MailConfig {

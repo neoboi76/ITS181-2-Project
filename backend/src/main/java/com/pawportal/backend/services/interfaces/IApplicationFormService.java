@@ -15,4 +15,3 @@ public interface IApplicationFormService {
     ApplicationFormResponse updateApplicationStatus(Long id, String statusStr);
     ApplicationFormResponse convertToDto(ApplicationFormModel model);
 }
-

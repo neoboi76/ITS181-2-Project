@@ -16,6 +16,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
+ */
+
+/**
+ * Controller class for application form related user and admin
+ * operations
+ */
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/applications")
@@ -27,6 +40,7 @@ public class ApplicationFormController {
     private final IAuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
+    //Creates applications (only logged users can do this)
     @PostMapping
     public ResponseEntity<ApplicationFormResponse> createApplication(@RequestBody ApplicationFormRequest application, HttpServletRequest request) {
         try {
@@ -48,13 +62,16 @@ public class ApplicationFormController {
         }
     }
 
+    //Admin retrieval of all applications
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ApplicationFormResponse>> getAllApplications() {
         return ResponseEntity.ok(applicationFormService.getAllApplications());
     }
 
+    //Admin retrieval of a particular application
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApplicationFormResponse> getApplicationById(@PathVariable Long id, HttpServletRequest request) {
         try {
             String token = getTokenFromRequest(request);
@@ -73,11 +90,14 @@ public class ApplicationFormController {
         }
     }
 
+    //Admin retrieval of all applications sent by a particular user
     @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ApplicationFormResponse>> getApplicationsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(applicationFormService.getApplicationsByUserId(userId));
     }
 
+    //Admin method that can update application status
     @PutMapping("/{id}/status")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApplicationFormResponse> updateApplicationStatus(
@@ -101,6 +121,7 @@ public class ApplicationFormController {
         }
     }
 
+    //Helper method that extracts JWT token form HTTP request
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -109,6 +130,7 @@ public class ApplicationFormController {
         return null;
     }
 
+    //Helper method that extracts user IP address from HTTP request
     private String getClientIp(HttpServletRequest request) {
         String xForwardedFor = request.getHeader("X-Forwarded-For");
         if (xForwardedFor != null && !xForwardedFor.isEmpty()) {

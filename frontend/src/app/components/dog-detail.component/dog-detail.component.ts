@@ -7,6 +7,7 @@ import { ApplicationService } from '../../services/application.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import { Dog } from '../../models/dog.model';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dog-detail',
@@ -33,7 +34,8 @@ export class DogDetailComponent implements OnInit, OnDestroy {
     private dogService: DogService,
     private applicationService: ApplicationService,
     private tokenStorageService: TokenStorageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -54,12 +56,13 @@ export class DogDetailComponent implements OnInit, OnDestroy {
     this.isLoggedIn = !!token;
     if (this.isLoggedIn) {
       this.userId = this.tokenStorageService.getUsrId();
-      this.userSubscription = this.tokenStorageService.getUser().subscribe(user => {
+      this.userSubscription = this.authService.getUser(this.userId).subscribe(user => {
         if (user) {
           this.applicationForm.patchValue({
             firstName: user.firstName || '',
             lastName: user.lastName || '',
-            email: user.email || ''
+            email: user.email || '',
+            phone: user.mobileNumber || 0
           });
         }
       });

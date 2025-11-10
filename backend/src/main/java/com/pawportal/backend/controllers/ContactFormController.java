@@ -15,6 +15,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
+ */
+
+/**
+ * Controller class for contact form related user and admin
+ * operations
+ */
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/contact")
@@ -26,6 +39,7 @@ public class ContactFormController {
     private final IAuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
+    //Creates contact form (non-logged users included)
     @PostMapping
     public ResponseEntity<ContactFormModel> createContactForm(@RequestBody ContactFormModel contactForm, HttpServletRequest request) {
         try {
@@ -47,6 +61,7 @@ public class ContactFormController {
         }
     }
 
+    //Admin retrieval of all contact forms sent to the system
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ContactFormModel>> getAllContactForms(HttpServletRequest request) {
@@ -65,6 +80,7 @@ public class ContactFormController {
         }
     }
 
+    //Helper method that extracts JWT token form HTTP request
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -73,6 +89,7 @@ public class ContactFormController {
         return null;
     }
 
+    //Helper method that extracts user IP address from HTTP request
     private String getClientIp(HttpServletRequest request) {
         String xForwardedFor = request.getHeader("X-Forwarded-For");
         if (xForwardedFor != null && !xForwardedFor.isEmpty()) {

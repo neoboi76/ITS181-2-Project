@@ -93,7 +93,6 @@ export class AuthService  {
   }
 
   getUser(id: number): Observable<UserModel> {
-
     return this.http.get<UserModel>(
       `${this.apiUrl}/get-user/${id}`, 
       { headers: this.getHeaders() }

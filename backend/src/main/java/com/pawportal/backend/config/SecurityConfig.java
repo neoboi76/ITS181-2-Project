@@ -20,14 +20,12 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 
-/**
-    Developed by Group 6:
-        Kenji Mark Alan Arceo
-        Carl Norbi Felonia
-        Ryonan Owen Ferrer
-        Dino Alfred Timbol
-        Mike Emil Vocal
-
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
  */
 
 /** An important class. Stores the config for Sprint security used by the Application.
@@ -45,6 +43,9 @@ public class SecurityConfig {
                                                    AuthenticationProvider authenticationProvider,
                                                    JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
+                //Cross Origin Resource Sharing (CORS) is configured for the angular frontend.
+                //This ensures data can be sent to and from the frontend at the given destination
+                //below
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of("http://localhost:4200"));

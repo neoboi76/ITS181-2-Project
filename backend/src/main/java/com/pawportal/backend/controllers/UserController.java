@@ -18,7 +18,22 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
+ */
+
+/**
+ * Controller class for user related user and admin
+ * operations
+ */
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -32,9 +47,11 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
+    //Login authentication controller endpoint
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
         try {
+            //Authenticates email and password
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
@@ -58,6 +75,7 @@ public class UserController {
         }
     }
 
+    //Sign up endpoint for creation of new users
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) {
         try {
@@ -79,6 +97,7 @@ public class UserController {
         }
     }
 
+    //Reset password endpoint that allows password reset from the settings page (user must be logged in)
     @PutMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody ResetRequest request, HttpServletRequest httpRequest) {
         try {
@@ -100,6 +119,7 @@ public class UserController {
         }
     }
 
+    //Forgot password endpoint that allows password reset login page (if user "forgot" their password)
     @PutMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody ForgotRequest request, HttpServletRequest httpRequest) {
         try {
@@ -119,6 +139,9 @@ public class UserController {
         return null;
     }
 
+    //Endpoint that allows the user to request a link to be sent to their email that will direct
+    //them to forgot password page. Link must have a unique id tied to the user (who must already
+    //exists in the database).
     @PostMapping("/request-forgot")
     public ResponseEntity<?> requestForgot(@RequestBody ForgotRequest body, HttpServletRequest request) {
         try {
@@ -130,6 +153,7 @@ public class UserController {
         }
     }
 
+    //Logout endpoint. This also blacklists the jwt token the moment the user logs out
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         try {
@@ -149,6 +173,7 @@ public class UserController {
         }
     }
 
+    //Updates user information. Used primarily in the settings page
     @PutMapping("/update-user")
     public ResponseEntity<?> updateUser(HttpServletRequest request, @RequestBody SettingsRequest usrReq) {
         try {
@@ -167,6 +192,7 @@ public class UserController {
         }
     }
 
+    //Retrieves a particular user based on their id
     @GetMapping("/get-user/{id}")
     public ResponseEntity<?> getUser(HttpServletRequest request, @PathVariable long id) {
         try {
@@ -183,12 +209,14 @@ public class UserController {
         }
     }
 
+    //Admin method to retrieve a list of users
     @GetMapping("/admin/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    //Admin suspension of non-admin users
     @PutMapping("/admin/users/{id}/suspend")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> suspendUser(@PathVariable Long id, HttpServletRequest request) {
@@ -210,6 +238,7 @@ public class UserController {
         }
     }
 
+    //Admin promotion (to admin) of non-admin users
     @PutMapping("/admin/users/{id}/promote")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> promoteUser(@PathVariable Long id, HttpServletRequest request) {
@@ -230,6 +259,7 @@ public class UserController {
         }
     }
 
+    //Activation of suspended non-admin users
     @PutMapping("/admin/users/{id}/activate")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> activateUser(@PathVariable Long id, HttpServletRequest request) {
@@ -252,6 +282,7 @@ public class UserController {
         }
     }
 
+    //Admin deletion of non-admin users
     @DeleteMapping("/admin/users/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id, HttpServletRequest request) {
@@ -266,13 +297,16 @@ public class UserController {
                     getClientIp(request), request.getHeader("User-Agent"),
                     "Admin deleted user ID: " + id);
 
-            return ResponseEntity.ok().body("User deleted successfully");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User deleted successfully");
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to delete user: " + e.getMessage());
         }
     }
 
+    //Admin retrieval of all existing audit logs
     @GetMapping("/admin/audit-logs")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAuditLogs(HttpServletRequest request) {
@@ -294,6 +328,7 @@ public class UserController {
         }
     }
 
+    //Helper method that extracts JWT token form HTTP request
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -302,6 +337,7 @@ public class UserController {
         return null;
     }
 
+    //Helper method that extracts user IP address from HTTP request
     private String getClientIp(HttpServletRequest request) {
         String xForwardedFor = request.getHeader("X-Forwarded-For");
         if (xForwardedFor != null && !xForwardedFor.isEmpty()) {

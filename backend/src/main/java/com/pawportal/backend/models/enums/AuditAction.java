@@ -1,5 +1,17 @@
 package com.pawportal.backend.models.enums;
 
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
+ */
+
+/**
+ * Enum class for the range of possible audit actions
+ */
+
 public enum AuditAction {
     USER_LOGIN,
     USER_LOGOUT,

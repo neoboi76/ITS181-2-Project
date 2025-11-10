@@ -180,7 +180,7 @@ export class AdminUsersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error deleting user:', err);
-        this.errorMessage = err.error || 'Failed to delete user';
+        this.errorMessage = 'Failed to delete user';
         this.closeConfirmModal();
         setTimeout(() => (this.errorMessage = ''), 3000);
       }      

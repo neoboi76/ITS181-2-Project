@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactService } from '../../services/contact.service';
+import { TokenStorageService } from '../../services/token-storage.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-contact',
@@ -15,10 +18,15 @@ export class ContactComponent implements OnInit {
   submitted = false;
   successMessage = '';
   errorMessage = '';
+  isLoggedIn = false;
+  userId: number = 0;
+  private userSubscription?: Subscription;
 
   constructor(
     private fb: FormBuilder,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private tokenStorageService: TokenStorageService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +37,24 @@ export class ContactComponent implements OnInit {
       subject: ['', [Validators.required]],
       message: ['', [Validators.required, Validators.minLength(20)]]
     });
+    this.checkLoginStatus();
+  }
+
+   checkLoginStatus(): void {
+    const token = this.tokenStorageService.getToken();
+    this.isLoggedIn = !!token;
+    if (this.isLoggedIn) {
+      this.userId = this.tokenStorageService.getUsrId();
+      this.userSubscription = this.authService.getUser(this.userId).subscribe(user => {
+        if (user) {
+          this.contactForm.patchValue({
+            name: user.firstName + ' ' + user.lastName || '',
+            email: user.email || '',
+            phone: user.mobileNumber || 0
+          });
+        }
+      });
+    }
   }
 
   get f() {

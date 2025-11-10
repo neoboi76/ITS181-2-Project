@@ -8,6 +8,20 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
+ */
+
+/**
+ * Main entity class (table) for the internal Model representation.
+ * of the application forms
+ */
+
+
 @Entity
 @Table(name = "application_forms")
 @Data
@@ -15,14 +29,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ApplicationFormModel {
 
+    //PK
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationId;
 
+    //FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private UserModel user;
 
+
+    //FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dogId")
     private DogModel dog;
@@ -48,16 +66,16 @@ public class ApplicationFormModel {
     @Column(nullable = false)
     private String postalCode;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String occupation;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String livingStatus;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String reasonForAdoption;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String experience;
 
     @Enumerated(EnumType.STRING)

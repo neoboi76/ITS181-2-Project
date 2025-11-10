@@ -182,6 +182,7 @@ public class AuthService implements IAuthService, UserDetailsService  {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return new SettingsRequest(
+                user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getUserId(),

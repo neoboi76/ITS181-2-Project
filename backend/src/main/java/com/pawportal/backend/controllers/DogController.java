@@ -16,6 +16,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/** Developed by Group 6:
+ * Kenji Mark Alan Arceo
+ * Carl Norbi Felonia
+ * Ryonan Owen Ferrer
+ * Dino Alfred Timbol
+ * Mike Emil Vocal
+ */
+
+/**
+ * Controller class for dog related user and admin
+ * operations
+ */
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/dogs")
@@ -27,11 +40,13 @@ public class DogController {
     private final IAuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
+    //Retrieves a list of all dogs (public access)
     @GetMapping
     public ResponseEntity<List<DogModel>> getAllDogs() {
         return ResponseEntity.ok(dogService.getAllDogs());
     }
 
+    //Retrieves a specific dog by id (only logged users have access to this)
     @GetMapping("/{id}")
     public ResponseEntity<DogModel> getDogById(@PathVariable Long id, HttpServletRequest request) {
         try {
@@ -52,12 +67,14 @@ public class DogController {
 
     }
 
+    //Retrieve dog(s) based on status (filtering mechanism)
     @GetMapping("/status/{status}")
     public ResponseEntity<List<DogModel>> getDogsByStatus(@PathVariable String status) {
         DogStatus dogStatus = DogStatus.valueOf(status.toUpperCase());
         return ResponseEntity.ok(dogService.getDogsByStatus(dogStatus));
     }
 
+    //Admin creation of dogs for adoption
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DogModel> createDog(@RequestBody DogModel dog, HttpServletRequest request) {
@@ -78,6 +95,7 @@ public class DogController {
         }
     }
 
+    //Admin modification of inputted dog information
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DogModel> updateDog(@PathVariable Long id, @RequestBody DogModel dog, HttpServletRequest request) {
@@ -98,6 +116,7 @@ public class DogController {
         }
     }
 
+    //Admin deletion of dog information
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteDog(@PathVariable Long id, HttpServletRequest request) {
@@ -118,6 +137,7 @@ public class DogController {
         }
     }
 
+    //Helper method that extracts JWT token form HTTP request
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
@@ -126,6 +146,7 @@ public class DogController {
         return null;
     }
 
+    //Helper method that extracts user IP address from HTTP request
     private String getClientIp(HttpServletRequest request) {
         String xForwardedFor = request.getHeader("X-Forwarded-For");
         if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
